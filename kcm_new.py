@@ -154,7 +154,7 @@ while True:
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
-                if rsi < 25 and predicted_close_price/current_price > 1.10 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if rsi < 30 and predicted_close_price/current_price > 1.10 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 10000)
                         buycoin_0 = coin
