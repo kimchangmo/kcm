@@ -314,7 +314,7 @@ while True:
                     web3_4 = 'false'
                     web3_5 = 'false'
                 #물타기
-                elif (count3 == 'false') and ((buy_price_2 * 0.95) > (get_current_price(buycoin_2))) and (web3_1 == 'false'):
+                elif (count3 == 'false') and ((buy_price_2 * 0.995) > (get_current_price(buycoin_2))) and (web3_1 == 'false'):
                     krw = get_balance("KRW")
                     if krw > 40000:
                         upbit.buy_market_order(buycoin_2, 40000)
@@ -390,34 +390,34 @@ while True:
                     web3_5 = 'false'
 
             else:
-                print("판매중...")
-                if (count1 == 'false') :
-                    btc0 = get_balance(buycoin_0[4:])
-                    upbit.sell_market_order(buycoin_0, btc0)
-                    count1 = 'true'
-                    web1_1 = 'false'
-                    web1_2 = 'false'
-                    web1_3 = 'false'
-                    web1_4 = 'false'
-                    web1_5 = 'false'
-                if (count2 == 'false') :
-                    btc1 = get_balance(buycoin_1[4:])
-                    upbit.sell_market_order(buycoin_1, btc1)
-                    count2 = 'true'
-                    web2_1 = 'false'
-                    web2_2 = 'false'
-                    web2_3 = 'false'
-                    web2_4 = 'false'
-                    web2_5 = 'false'
-                if (count3 == 'false') :
-                    btc2 = get_balance(buycoin_2[4:])
-                    upbit.sell_market_order(buycoin_2, btc2)
-                    count2 = 'true'
-                    web3_1 = 'false'
-                    web3_2 = 'false'
-                    web3_3 = 'false'
-                    web3_4 = 'false'
-                    web3_5 = 'false'
+                #print("판매중...")
+                #if (count1 == 'false') :
+                #    btc0 = get_balance(buycoin_0[4:])
+                #    upbit.sell_market_order(buycoin_0, btc0)
+                #    count1 = 'true'
+                #    web1_1 = 'false'
+                #    web1_2 = 'false'
+                #    web1_3 = 'false'
+                #    web1_4 = 'false'
+                #    web1_5 = 'false'
+                #if (count2 == 'false') :
+                #    btc1 = get_balance(buycoin_1[4:])
+                #    upbit.sell_market_order(buycoin_1, btc1)
+                #    count2 = 'true'
+                #    web2_1 = 'false'
+                #    web2_2 = 'false'
+                #    web2_3 = 'false'
+                #    web2_4 = 'false'
+                #    web2_5 = 'false'
+                #if (count3 == 'false') :
+                #    btc2 = get_balance(buycoin_2[4:])
+                #    upbit.sell_market_order(buycoin_2, btc2)
+                #    count2 = 'true'
+                #    web3_1 = 'false'
+                #    web3_2 = 'false'
+                #    web3_3 = 'false'
+                #    web3_4 = 'false'
+                #    web3_5 = 'false'
 
                 #코인리스트 리셋(손해매도 코인 remove 대응)    
                 all_coin = pyupbit.get_tickers('KRW')
