@@ -154,7 +154,7 @@ while True:
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
-                if rsi < 30 and predicted_close_price/current_price > 1.10 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if rsi < 25 and predicted_close_price/current_price > 1.10 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 20000)
                         buycoin_0 = coin
@@ -180,7 +180,7 @@ while True:
                         count3 = 'false'
                         time.sleep(5)
 
-                if (count1 == 'false') and ((water_buy_price_0 * 1.03) < (get_current_price(buycoin_0))) :
+                if (count1 == 'false') and ((water_buy_price_0 * 1.015) < (get_current_price(buycoin_0))) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -246,7 +246,7 @@ while True:
                     web1_4 = 'false'
                     web1_5 = 'false'
 
-                if (count2 == 'false') and ((water_buy_price_1 * 1.03) < (get_current_price(buycoin_1))) :
+                if (count2 == 'false') and ((water_buy_price_1 * 1.015) < (get_current_price(buycoin_1))) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -312,7 +312,7 @@ while True:
                     web2_4 = 'false'
                     web2_5 = 'false'
                     
-                if (count3 == 'false') and ((water_buy_price_2 * 1.03) < (get_current_price(buycoin_2))) :
+                if (count3 == 'false') and ((water_buy_price_2 * 1.015) < (get_current_price(buycoin_2))) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
