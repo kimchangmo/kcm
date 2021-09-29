@@ -61,7 +61,7 @@ def predict_price(ticker):
 rsi = 0
 def rsiindex(symbol):
     global rsi
-    url = "https://api.upbit.com/v1/candles/minutes/10"
+    url = "https://api.upbit.com/v1/candles/minutes/3"
 
     querystring = {"market":symbol,"count":"500"}
 
@@ -98,8 +98,6 @@ def rsiindex(symbol):
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 all_coin = pyupbit.get_tickers('KRW')
-all_coin.remove('KRW-SC')
-all_coin.remove('KRW-QKC')
 all_coin.remove('KRW-MED')
 all_coin.remove('KRW-CRE')
 # 자동매매 시작
@@ -154,7 +152,7 @@ while True:
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
-                if rsi < 25 and predicted_close_price/current_price > 1.10 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if rsi < 25 and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 100000)
                         buycoin_0 = coin
@@ -433,8 +431,6 @@ while True:
 
                 #코인리스트 리셋(손해매도 코인 remove 대응)    
                 #all_coin = pyupbit.get_tickers('KRW')
-                #all_coin.remove('KRW-SC')
-                #all_coin.remove('KRW-QKC')
                 #all_coin.remove('KRW-MED')
                 #all_coin.remove('KRW-CRE')
 
