@@ -61,7 +61,7 @@ def predict_price(ticker):
 rsi = 0
 def rsiindex(symbol):
     global rsi
-    url = "https://api.upbit.com/v1/candles/minutes/10"
+    url = "https://api.upbit.com/v1/candles/minutes/1"
 
     querystring = {"market":symbol,"count":"500"}
 
@@ -152,7 +152,7 @@ while True:
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
-                if rsi < 25 and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if rsi < 30 and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 50000)
                         buycoin_0 = coin
