@@ -161,7 +161,7 @@ while True:
                         water_buy_price_0 = current_price
                         print("구매완료 코인 1:",  buycoin_0)
                         count1 = 'false'
-                        buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                        buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         time.sleep(5)
                     elif count2 == 'true':
                         upbit.buy_market_order(coin, 50000)
@@ -170,7 +170,7 @@ while True:
                         water_buy_price_1 = current_price
                         print("구매완료 코인 2:",  buycoin_1)
                         count2 = 'false'
-                        buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                        buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         time.sleep(5)
                     elif count3 == 'true':
                         upbit.buy_market_order(coin, 50000)
@@ -179,7 +179,7 @@ while True:
                         water_buy_price_2 = current_price
                         print("구매완료 코인 3:",  buycoin_2)
                         count3 = 'false'
-                        buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                        buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         time.sleep(5)
 
                 if (count1 == 'false') and ((water_buy_price_0 * 1.015) < (get_current_price(buycoin_0))) :
@@ -218,7 +218,7 @@ while True:
                         time.sleep(1)
                         water_buy_price_0 = 350000/(upbit.get_balance(buycoin_0[4:]))
                     web1_3 = 'true'
-                    buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                    buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                     time.sleep(1)
                 elif (count1 == 'false') and ((buy_price_0 * 0.94) > (get_current_price(buycoin_0))) and (web1_4 == 'false') and (now > buytime1):
                     krw = get_balance("KRW")
@@ -285,7 +285,7 @@ while True:
                         time.sleep(1)
                         water_buy_price_1 = 350000/(upbit.get_balance(buycoin_1[4:]))
                     web2_3 = 'true'
-                    buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                    buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                     time.sleep(1)
                 elif (count2 == 'false') and ((buy_price_1 * 0.94) > (get_current_price(buycoin_1))) and (web2_4 == 'false') and (now > buytime2):
                     krw = get_balance("KRW")
@@ -352,7 +352,7 @@ while True:
                         time.sleep(1)
                         water_buy_price_2 = 350000/(upbit.get_balance(buycoin_2[4:]))
                     web3_3 = 'true'
-                    buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=20)
+                    buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                     time.sleep(1)
                 elif (count3 == 'false') and ((buy_price_2 * 0.94) > (get_current_price(buycoin_2))) and (web3_4 == 'false') and (now > buytime3):
                     krw = get_balance("KRW")
