@@ -241,6 +241,7 @@ while True:
             #rsi 정보 업데이트
             #print("what coin : ",  coin)
             #print("old_rsi : ", rsi_list[n])
+            rsiindex(coin)
             rsi_list[n] = rsi
             #print("new_rsi : ", rsi_list[n])
             
