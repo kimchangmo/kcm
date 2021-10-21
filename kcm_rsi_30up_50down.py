@@ -114,19 +114,21 @@ while k < len(all_coin) :
     except Exception as e:
         print(e)
         time.sleep(1)
-
 json_rsi_dict = json.loads(json_rsi_info)
 ----------------------------------수정필요---------------------------------
 """
 k = 0
 while k < len(all_coin) :
     try:
+        print("find rsi ing...")
         rsiindex(all_coin[k])
         rsi_list.append(rsi)
+        k = k+1
     except Exception as e:
         print(e)
         time.sleep(1)
-
+print("rsi_list_length",len(rsi_list))
+print("coin_length",len(all_coin))
 # 자동매매 시작
 while True:
     n = 0
@@ -146,9 +148,7 @@ while True:
                 rsiindex(coin)
                 print("old_rsi :",  rsi_list[n])
                 print("now_rsi :",  rsi)
-                #if (30 > rsi_list[n]) and (30 < rsi) and predicted_close_price/current_price > 1.05 
-                if (30 > rsi_list[n]) and (30 < rsi)
-                and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > rsi_list[n]) and (30 < rsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 50000)
                         buycoin_0 = coin
@@ -239,10 +239,10 @@ while True:
                     count3 = 'true'
             
             #rsi 정보 업데이트
-            print("what coin : ",  coin)
-            print("old_rsi : ", rsi_list[n])
+            #print("what coin : ",  coin)
+            #print("old_rsi : ", rsi_list[n])
             rsi_list[n] = rsi
-            print("new_rsi : ", rsi_list[n])
+            #print("new_rsi : ", rsi_list[n])
             
             n = n+1
             time.sleep(1)
@@ -251,38 +251,31 @@ while True:
             time.sleep(1)
 """ 
 price_gap_desc.sort(reverse=True) #내림차순 정렬
-
 price_gap_index_0 = price_gap.index(price_gap_desc[0]) #1번 상승코인
 price_gap_index_1 = price_gap.index(price_gap_desc[1]) #2번 상승코인
 price_gap_index_2 = price_gap.index(price_gap_desc[2]) #3번 상승코인
 print("price_gap_index_0", price_gap_index_0)
-
 print("제일높은수치0 : " ,price_name[price_gap_index_0], " : ", price_gap_desc[0])
 print("제일높은수치1 : " ,price_name[price_gap_index_1], " : ", price_gap_desc[1])
 print("제일높은수치2 : " ,price_name[price_gap_index_2], " : ", price_gap_desc[2])
-
 while True:
     try:
         rsiindex(price_name[price_gap_index_0])
         if rsi < 25 and price_gap_desc[0] > 1.05 :
             upbit.buy_market_order(price_name[price_gap_index_0], 10000)
             print("1번구매")
-
         rsiindex(price_name[price_gap_index_1])
         if rsi < 25 and price_gap_desc[1] > 1.05 :
             upbit.buy_market_order(price_name[price_gap_index_1], 10000)
             print("2번구매")
-
         rsiindex(price_name[price_gap_index_2])
         if rsi < 25 and price_gap_desc[2] > 1.05 :
             upbit.buy_market_order(price_name[price_gap_index_2], 10000)
             print("3번구매")
-
         time.sleep(1)
     except Exception as e:
         print(e)
         time.sleep(1)
-
 n = 0
 while n < 112 : #총 코인 갯수
     try:
@@ -301,12 +294,10 @@ while n < 112 : #총 코인 갯수
     except Exception as e:
         print(e)
         time.sleep(1)
-
 rsi_list_desc.sort() #오름차순 정렬
 price_gap_index_0 = rsi_list.index(rsi_list_desc[0])
 price_gap_index_1 = rsi_list.index(rsi_list_desc[1])
 price_gap_index_2 = rsi_list.index(rsi_list_desc[2])
-
 print("rsi_row_1 : " ,rsi_name[price_gap_index_0], " : ", rsi_list_desc[0])
 print("rsi_row_2 : " ,rsi_name[price_gap_index_1], " : ", rsi_list_desc[1])
 print("rsi_row_3 : " ,rsi_name[price_gap_index_2], " : ", rsi_list_desc[2])
