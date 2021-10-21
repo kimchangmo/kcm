@@ -135,7 +135,7 @@ while True:
     while n < len(all_coin) : #총 코인 갯수
         try:
             coin = all_coin[n]
-            predict_price(coin)
+            #predict_price(coin)
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
