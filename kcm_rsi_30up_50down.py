@@ -146,24 +146,25 @@ while True:
                 rsiindex(coin)
                 print("old_rsi :",  rsi_list[n])
                 print("now_rsi :",  rsi)
-                if (30 > rsi_list[n]) and (30 < rsi) and predicted_close_price/current_price > 1.05 
+                #if (30 > rsi_list[n]) and (30 < rsi) and predicted_close_price/current_price > 1.05 
+                if (30 > rsi_list[n]) and (30 < rsi)
                 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
-                        upbit.buy_market_order(coin, 10000)
+                        upbit.buy_market_order(coin, 50000)
                         buycoin_0 = coin
                         buy_price_0 = current_price
                         print("buy coin 1:",  buycoin_0)
                         count1 = 'false'
                         time.sleep(5)
                     elif count2 == 'true':
-                        upbit.buy_market_order(coin, 10000)
+                        upbit.buy_market_order(coin, 50000)
                         buycoin_1 = coin
                         buy_price_1 = current_price
                         print("buy coin 2:",  buycoin_1)
                         count2 = 'false'
                         time.sleep(5)
                     elif count3 == 'true':
-                        upbit.buy_market_order(coin, 10000)
+                        upbit.buy_market_order(coin, 50000)
                         buycoin_2 = coin
                         buy_price_2 = current_price
                         print("buy coin 3:",  buycoin_2)
@@ -238,7 +239,10 @@ while True:
                     count3 = 'true'
             
             #rsi 정보 업데이트
+            print("what coin : ",  coin)
+            print("old_rsi : ", rsi_list[n])
             rsi_list[n] = rsi
+            print("new_rsi : ", rsi_list[n])
             
             n = n+1
             time.sleep(1)
