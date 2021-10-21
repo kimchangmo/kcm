@@ -75,9 +75,9 @@ def rsiindex(symbol):
         return pd.Series(100 - (100 / (1 + RS)), name="RSI")
 
     rsi = rsi(df, 14).iloc[-1]
-    print(symbol)
-    print('Upbit 3 minute RSI:', rsi)
-    print('')
+    #print(symbol)
+    #print('Upbit 3 minute RSI:', rsi)
+    #print('')
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
@@ -86,8 +86,8 @@ all_coin = pyupbit.get_tickers('KRW')
 all_coin.remove('KRW-MED')
 all_coin.remove('KRW-CRE')
 
+rsi_list = [] #rsi 목록
 #rsi_name = [] #상승예상코인명
-#rsi_list = [] #상승예상수치
 #rsi_list_desc = []
 #price_name = [] #상승예상코인명
 #price_gap = [] #상승예상수치
@@ -99,6 +99,7 @@ count2 = 'true'
 count3 = 'true'
 
 #전체코인 rsi 정보 array 만들고 시작
+"""
 ----------------------------------수정필요---------------------------------
 k = 0
 while k < len(all_coin) :
@@ -116,6 +117,16 @@ while k < len(all_coin) :
 
 json_rsi_dict = json.loads(json_rsi_info)
 ----------------------------------수정필요---------------------------------
+"""
+k = 0
+while k < len(all_coin) :
+    try:
+        rsiindex(all_coin[k])
+        rsi_list.append(rsi)
+    except Exception as e:
+        print(e)
+        time.sleep(1)
+
 # 자동매매 시작
 while True:
     n = 0
@@ -129,11 +140,13 @@ while True:
             end_time = start_time + datetime.timedelta(days=1)
 
             if start_time + datetime.timedelta(seconds=600) < now < end_time - datetime.timedelta(seconds=60):
-                print("진행중... :",  coin)
+                print("ing... :",  coin)
                 current_price = get_current_price(coin)
                 #rsi 확인
                 rsiindex(coin)
-                if (30 > json_rsi_dict[coin]) and (30 < rsi) and predicted_close_price/current_price > 1.05 
+                print("old_rsi :",  rsi_list[n])
+                print("now_rsi :",  rsi)
+                if (30 > rsi_list[n]) and (30 < rsi) and predicted_close_price/current_price > 1.05 
                 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 10000)
@@ -164,10 +177,10 @@ while True:
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
-                elif (count1 == 'false') and ((buy_price_0 * 0.90) > (get_current_price(buycoin_0))) :
-                    btc_0 = upbit.get_balance(buycoin_0[4:])
-                    upbit.sell_market_order(buycoin_0, btc_0)
-                    count1 = 'true'
+                #elif (count1 == 'false') :
+                #    btc_0 = upbit.get_balance(buycoin_0[4:])
+                #    upbit.sell_market_order(buycoin_0, btc_0)
+                #    count1 = 'true'
 
                 #2번구매코인 익절/손절
                 if (count2 == 'false') :
@@ -176,10 +189,10 @@ while True:
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
-                elif (count2 == 'false') and ((buy_price_1 * 0.90) > (get_current_price(buycoin_1))) :
-                    btc_1 = upbit.get_balance(buycoin_1[4:])
-                    upbit.sell_market_order(buycoin_1, btc_1)
-                    count2 = 'true'
+                #elif (count2 == 'false') :
+                #    btc_1 = upbit.get_balance(buycoin_1[4:])
+                #    upbit.sell_market_order(buycoin_1, btc_1)
+                #    count2 = 'true'
                     
                 #3번구매코인 익절/손절
                 if (count3 == 'false') :
@@ -188,10 +201,10 @@ while True:
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
-                elif (count3 == 'false') and ((buy_price_2 * 0.90) > (get_current_price(buycoin_2))) :
-                    btc_2 = upbit.get_balance(buycoin_2[4:])
-                    upbit.sell_market_order(buycoin_2, btc_2)
-                    count3 = 'true'
+                #elif (count3 == 'false') :
+                #    btc_2 = upbit.get_balance(buycoin_2[4:])
+                #    upbit.sell_market_order(buycoin_2, btc_2)
+                #    count3 = 'true'
 
                 #수동판매 대응
                 if (count1 == 'false') and (upbit.get_balance(buycoin_0[4:]) == 0) :
@@ -224,7 +237,9 @@ while True:
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
             
-            #여기에 배열에 코인 rsi정보 
+            #rsi 정보 업데이트
+            rsi_list[n] = rsi
+            
             n = n+1
             time.sleep(1)
         except Exception as e:
