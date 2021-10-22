@@ -90,9 +90,9 @@ def rsiindex(symbol):
         return pd.Series(100 - (100 / (1 + RS)), name="RSI")
 
     rsi = rsi(df, 14).iloc[-1]
-    print(symbol)
-    print('Upbit 3 minute RSI:', rsi)
-    print('')
+    #print(symbol)
+    #print('Upbit 3 minute RSI:', rsi)
+    #print('')
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
@@ -164,13 +164,15 @@ while True:
                 current_price = get_current_price(coin)
                 #rsi 확인
                 rsiindex(coin)
+                print("old_rsi :",  rsi_list[n])
+                print("now_rsi :",  rsi)
                 if (30 > rsi_list[n]) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 50000)
                         buycoin_0 = coin
                         buy_price_0 = current_price
                         water_buy_price_0 = current_price
-                        print("구매완료 코인 1:",  buycoin_0)
+                        print("buy coin 1:",  buycoin_0)
                         count1 = 'false'
                         buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         price1_097 = 99999999999999
@@ -180,7 +182,7 @@ while True:
                         buycoin_1 = coin
                         buy_price_1 = current_price
                         water_buy_price_1 = current_price
-                        print("구매완료 코인 2:",  buycoin_1)
+                        print("buy coin 2:",  buycoin_1)
                         count2 = 'false'
                         buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         price2_097 = 99999999999999
@@ -190,7 +192,7 @@ while True:
                         buycoin_2 = coin
                         buy_price_2 = current_price
                         water_buy_price_2 = current_price
-                        print("구매완료 코인 3:",  buycoin_2)
+                        print("buy coin 3:",  buycoin_2)
                         count3 = 'false'
                         buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=10)
                         price3_097 = 99999999999999
