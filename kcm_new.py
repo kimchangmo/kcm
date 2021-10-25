@@ -61,7 +61,7 @@ def predict_price(ticker):
 rsi = 0
 def rsiindex(symbol):
     global rsi
-    url = "https://api.upbit.com/v1/candles/minutes/3"
+    url = "https://api.upbit.com/v1/candles/minutes/1"
 
     querystring = {"market":symbol,"count":"500"}
 
