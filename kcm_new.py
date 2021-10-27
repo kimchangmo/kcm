@@ -61,16 +61,19 @@ def predict_price(ticker):
 
 rsi = 0
 oldrsi = 0
+old_old_rsi = 0
 def rsiindex(symbol):
     global rsi
     global oldrsi
-    url = "https://api.upbit.com/v1/candles/minutes/60"
+    global old_old_rsi
+    url = "https://api.upbit.com/v1/candles/minutes/3"
     querystring = {"market":symbol,"count":"500"}
     response = requests.request("GET", url, params=querystring)
     data = response.json()
     df = pd.DataFrame(data)
     df=df.reindex(index=df.index[::-1]).reset_index()
-    bit_mask = df['index'] > 0
+    old = df['index'] > 0
+    old_old = df['index'] > 1
     
     def rsi(ohlc: pd.DataFrame, period: int = 14):
         ohlc["trade_price"] = ohlc["trade_price"]
@@ -85,9 +88,11 @@ def rsiindex(symbol):
         RS = _gain / _loss
         return pd.Series(100 - (100 / (1 + RS)), name="RSI")
 
-    oldrsi = rsi(df[bit_mask], 14).iloc[-1]
+    oldrsi = rsi(df[old], 14).iloc[-1]
+    old_old_rsi = rsi(df[old_old], 14).iloc[-1]
     rsi = rsi(df, 14).iloc[-1]
     print(symbol)
+    print('Upbit 6 minute oldRSI:', old_old_rsi)
     print('Upbit 3 minute oldRSI:', oldrsi)
     print('Upbit now RSI:', rsi)
     #print('')
@@ -152,6 +157,7 @@ while True:
                 current_price = get_current_price(coin)
                 rsiindex(coin)
                 if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                #if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 50000)
                         buycoin_0 = coin
