@@ -156,7 +156,10 @@ while True:
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
-                if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > oldrsi) and (30 < rsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                #인공지능 적용 비교문
+                #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                #이전,이이전 비교문
                 #if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         upbit.buy_market_order(coin, 50000)
