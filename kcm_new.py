@@ -6,6 +6,7 @@ from fbprophet import Prophet
 import requests
 import pandas as pd
 import webbrowser
+import numpy
 
 access = "GauxnmxqFhWqPmxPDgfrLxx4zNF2V66N5MZ1A3X8"
 secret = "X5BYYzfckghA2IRbTG46caZw4xbdzxXcGoxquMtK"
