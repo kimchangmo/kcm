@@ -158,7 +158,7 @@ while True:
     while n < len(all_coin) : #총 코인 갯수
         try:
             coin = all_coin[n]
-            predict_price(coin)
+            #predict_price(coin)
             #schedule.every().hour.do(lambda: predict_price(coin))
             #schedule.run_pending()
 
