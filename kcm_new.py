@@ -69,6 +69,8 @@ def rsiindex(symbol):
     global rsi
     global oldrsi
     global old_old_rsi
+    global band_high
+    global band_low
     url = "https://api.upbit.com/v1/candles/minutes/3"
     querystring = {"market":symbol,"count":"500"}
     response = requests.request("GET", url, params=querystring)
