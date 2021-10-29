@@ -108,7 +108,6 @@ def rsiindex(symbol):
     print('Upbit 6 minute oldRSI:', old_old_rsi)
     print('Upbit 3 minute oldRSI:', oldrsi)
     print('Upbit now RSI:', rsi)
-    print('band_high:', band_high)
     print('')
 
 # 로그인
@@ -166,10 +165,12 @@ while True:
             end_time = start_time + datetime.timedelta(days=1)
 
             if start_time + datetime.timedelta(seconds=600) < now < end_time - datetime.timedelta(seconds=60):
-                print("진행중... :",  coin)
+                print("ing... :",  coin)
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
+                print('band_high:', band_high)
+                print('current_price:', current_price)
                 if (30 > oldrsi) and (30 < rsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #인공지능 적용 비교문
                 #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
