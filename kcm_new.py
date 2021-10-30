@@ -229,7 +229,7 @@ while True:
                     web1_3 = 'false'
                     web1_4 = 'false'
                     web1_5 = 'false'
-                elif (count1 == 'false') and ((get_current_price(buycoin_0)) > band_high) :
+                elif (count1 == 'false') and ((get_current_price(buycoin_0)) > band_high) and ((water_buy_price_0 * 1.005) < (get_current_price(buycoin_0))) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -257,7 +257,7 @@ while True:
                         water_buy_price_0 = 150000/(upbit.get_balance(buycoin_0[4:]))
                         web1_2 = 'true'
                     time.sleep(1)
-                elif (count1 == 'false') and ((buy_price_0 * 0.97) > (get_current_price(buycoin_0))) and (web1_3 == 'false') and (now > buytime1) and (web1_2 == 'true'):
+                elif (count1 == 'false') and ((buy_price_0 * 0.990) > (get_current_price(buycoin_0))) and (web1_3 == 'false') and (now > buytime1) and (web1_2 == 'true'):
                     krw = get_balance("KRW")
                     if krw > 200000:
                         upbit.buy_market_order(buycoin_0, 200000) 
@@ -317,7 +317,7 @@ while True:
                     web2_3 = 'false'
                     web2_4 = 'false'
                     web2_5 = 'false'
-                elif (count2 == 'false') and ((get_current_price(buycoin_1)) > band_high) :
+                elif (count2 == 'false') and ((get_current_price(buycoin_1)) > band_high) and ((water_buy_price_1 * 1.005) < (get_current_price(buycoin_1))) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -345,7 +345,7 @@ while True:
                         water_buy_price_1 = 150000/(upbit.get_balance(buycoin_1[4:]))
                         web2_2 = 'true'
                     time.sleep(1)
-                elif (count2 == 'false') and ((buy_price_1 * 0.97) > (get_current_price(buycoin_1))) and (web2_3 == 'false') and (now > buytime2) and (web2_2 == 'true'):
+                elif (count2 == 'false') and ((buy_price_1 * 0.990) > (get_current_price(buycoin_1))) and (web2_3 == 'false') and (now > buytime2) and (web2_2 == 'true'):
                     krw = get_balance("KRW")
                     if krw > 200000:
                         upbit.buy_market_order(buycoin_1, 200000) 
@@ -405,7 +405,7 @@ while True:
                     web3_3 = 'false'
                     web3_4 = 'false'
                     web3_5 = 'false'
-                elif (count3 == 'false') and ((get_current_price(buycoin_2)) > band_high) :
+                elif (count3 == 'false') and ((get_current_price(buycoin_2)) > band_high) and ((water_buy_price_2 * 1.005) < (get_current_price(buycoin_2))) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
@@ -424,7 +424,7 @@ while True:
                 #        water_buy_price_2 = 60000/(upbit.get_balance(buycoin_2[4:]))
                 #    web3_1 = 'true'
                 #    time.sleep(1)
-                elif (count3 == 'false') and ((buy_price_2 * 0.995) > (get_current_price(buycoin_2))) and (web3_2 == 'false'):
+                elif (count3 == 'false') and ((buy_price_2 * 0.990) > (get_current_price(buycoin_2))) and (web3_2 == 'false'):
                     krw = get_balance("KRW")
                     if krw > 100000:
                         upbit.buy_market_order(buycoin_2, 100000) 
@@ -580,7 +580,7 @@ while True:
                     web1_3 = 'false'
                     web1_4 = 'false'
                     web1_5 = 'false'
-                elif (count1 == 'false') and ((get_current_price(buycoin_0)) > band_high) :
+                elif (count1 == 'false') and ((get_current_price(buycoin_0)) > band_high) and ((water_buy_price_0 * 1.005) < (get_current_price(buycoin_0))) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -610,7 +610,7 @@ while True:
                     web2_3 = 'false'
                     web2_4 = 'false'
                     web2_5 = 'false'
-                elif (count2 == 'false') and ((get_current_price(buycoin_1)) > band_high) :
+                elif (count2 == 'false') and ((get_current_price(buycoin_1)) > band_high) and ((water_buy_price_1 * 1.005) < (get_current_price(buycoin_1))) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -640,7 +640,7 @@ while True:
                     web3_3 = 'false'
                     web3_4 = 'false'
                     web3_5 = 'false'
-                elif (count3 == 'false') and ((get_current_price(buycoin_2)) > band_high) :
+                elif (count3 == 'false') and ((get_current_price(buycoin_2)) > band_high) and ((water_buy_price_2 * 1.005) < (get_current_price(buycoin_2))) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
