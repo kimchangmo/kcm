@@ -71,7 +71,7 @@ def rsiindex(symbol):
     global old_old_rsi
     global band_high
     global band_low
-    url = "https://api.upbit.com/v1/candles/minutes/3"
+    url = "https://api.upbit.com/v1/candles/minutes/10"
     querystring = {"market":symbol,"count":"500"}
     response = requests.request("GET", url, params=querystring)
     data = response.json()
@@ -107,8 +107,8 @@ def rsiindex(symbol):
     old_old_rsi = rsi(df[old_old], 14).iloc[-1]
     rsi = rsi(df, 14).iloc[-1]
     print(symbol)
-    print('Upbit 6 minute oldRSI:', old_old_rsi)
-    print('Upbit 3 minute oldRSI:', oldrsi)
+    print('Upbit 20 minute oldRSI:', old_old_rsi)
+    print('Upbit 10 minute oldRSI:', oldrsi)
     print('Upbit now RSI:', rsi)
     print('')
 
@@ -236,7 +236,7 @@ while True:
                     web1_3 = 'false'
                     web1_4 = 'false'
                     web1_5 = 'false'
-                elif (count1 == 'false') and (rsi > 70) :
+                elif (count1 == 'false') and (rsi < 70) and (70 < oldrsi) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -334,7 +334,7 @@ while True:
                     web2_3 = 'false'
                     web2_4 = 'false'
                     web2_5 = 'false'
-                elif (count2 == 'false') and (rsi > 70) :
+                elif (count2 == 'false') and (rsi < 70) and (70 < oldrsi) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -432,7 +432,7 @@ while True:
                     web3_3 = 'false'
                     web3_4 = 'false'
                     web3_5 = 'false'
-                elif (count3 == 'false') and (rsi > 70) :
+                elif (count3 == 'false') and (rsi < 70) and (70 < oldrsi) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
