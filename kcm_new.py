@@ -462,7 +462,6 @@ while True:
                         #구매시간 갱신
                         buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                         #물타기가격 갱신(2배)
-                        buy_money_2 = buy_money_2*2
                         old_buy_money_2 = buy_money_2
                         buy_money_2 = buy_money_2*2
                         water_buy_price_2 = (old_buy_money_2 + buy_money_2)/upbit.get_balance(buycoin_2[4:])
