@@ -159,7 +159,7 @@ while True:
         try:
             coin = all_coin[n]
             #인공지능
-            #predict_price(coin)
+            predict_price(coin)
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
@@ -177,8 +177,8 @@ while True:
                 #인공지능 적용 비교문
                 #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #이전,이이전 비교문
-                #if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
-                if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                #if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         buy_money_0 = 50000
                         krw = get_balance("KRW")
