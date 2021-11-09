@@ -185,7 +185,7 @@ while True:
                 if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
-                        buy_money_0 = 50000
+                        buy_money_0 = 100000
                         krw = get_balance("KRW")
                         if krw > buy_money_0:
                             upbit.buy_market_order(coin, buy_money_0)
@@ -200,7 +200,7 @@ while True:
                             #buy_money_0 = buy_money_0*2
                             time.sleep(5)
                     elif count2 == 'true':
-                        buy_money_1 = 50000
+                        buy_money_1 = 100000
                         krw = get_balance("KRW")
                         if krw > buy_money_1:
                             upbit.buy_market_order(coin, buy_money_1)
@@ -215,7 +215,7 @@ while True:
                             #buy_money_1 = buy_money_1*2
                             time.sleep(5)
                     elif count3 == 'true':
-                        buy_money_2 = 50000
+                        buy_money_2 = 100000
                         krw = get_balance("KRW")
                         if krw > buy_money_2:
                             upbit.buy_market_order(coin, buy_money_2)
@@ -269,7 +269,7 @@ while True:
                         #물타기가격 갱신(2배)
                         old_buy_money_0 = buy_money_0
                         buy_money_0 = buy_money_0*2
-                        if (old_buy_money_0 + buy_money_0) == 150000 :
+                        if old_buy_money_0 == 100000 :
                             old_plus_buy_0 = old_buy_money_0 + buy_money_0
                         else :
                             old_plus_buy_0 = old_plus_buy_0 + buy_money_0
@@ -373,10 +373,10 @@ while True:
                         #물타기가격 갱신(2배)
                         old_buy_money_1 = buy_money_1
                         buy_money_1 = buy_money_1*2
-                        if (old_buy_money_0 + buy_money_0) == 150000 :
-                            old_plus_buy_1 = old_buy_money_0 + buy_money_0
+                        if old_buy_money_1 == 100000 :
+                            old_plus_buy_1 = old_buy_money_1 + buy_money_1
                         else :
-                            old_plus_buy_1 = old_plus_buy_1 + buy_money_0
+                            old_plus_buy_1 = old_plus_buy_1 + buy_money_1
                         water_buy_price_1 = old_plus_buy_1/upbit.get_balance(buycoin_1[4:])
                         time.sleep(1)
                 #물타기
@@ -477,10 +477,10 @@ while True:
                         #물타기가격 갱신(2배)
                         old_buy_money_2 = buy_money_2
                         buy_money_2 = buy_money_2*2
-                        if (old_buy_money_0 + buy_money_0) == 150000 :
-                            old_plus_buy_2 = old_buy_money_0 + buy_money_0
+                        if old_buy_money_2 == 100000 :
+                            old_plus_buy_2 = old_buy_money_2 + buy_money_2
                         else :
-                            old_plus_buy_2 = old_plus_buy_2 + buy_money_0
+                            old_plus_buy_2 = old_plus_buy_2 + buy_money_2
                         water_buy_price_2 = old_plus_buy_2/upbit.get_balance(buycoin_2[4:])
                         time.sleep(1)
                 #물타기
