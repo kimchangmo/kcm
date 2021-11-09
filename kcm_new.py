@@ -260,7 +260,7 @@ while True:
                     web1_4 = 'false'
                     web1_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((water_buy_price_0 * 0.99) > (get_current_price(buycoin_0))):
+                elif (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((water_buy_price_0 * 0.995) > (get_current_price(buycoin_0))):
                     krw = get_balance("KRW")
                     if krw > buy_money_0*2:
                         upbit.buy_market_order(buycoin_0, buy_money_0*2)
@@ -364,7 +364,7 @@ while True:
                     web2_4 = 'false'
                     web2_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((water_buy_price_1 * 0.99) > (get_current_price(buycoin_1))):
+                elif (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((water_buy_price_1 * 0.995) > (get_current_price(buycoin_1))):
                     krw = get_balance("KRW")
                     if krw > buy_money_1*2:
                         upbit.buy_market_order(buycoin_1, buy_money_1*2)
@@ -468,7 +468,7 @@ while True:
                     web3_4 = 'false'
                     web3_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((water_buy_price_2 * 0.99) > (get_current_price(buycoin_2))):
+                elif (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((water_buy_price_2 * 0.995) > (get_current_price(buycoin_2))):
                     krw = get_balance("KRW")
                     if krw > buy_money_2*2:
                         upbit.buy_market_order(buycoin_2, buy_money_2*2)
