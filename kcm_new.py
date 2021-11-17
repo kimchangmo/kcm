@@ -165,6 +165,8 @@ while True:
             coin = all_coin[n]
             #인공지능
             predict_price(coin)
+            df = pyupbit.get_ohlcv(coin)
+            open_price = df['open'].iloc[-1]
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
@@ -182,7 +184,7 @@ while True:
                 #인공지능 적용 비교문
                 #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #이전,이이전 비교문
-                if (30 > old_old_rsi) and (30 < oldrsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         buy_money_0 = 100000
@@ -197,7 +199,7 @@ while True:
                             price1_097 = 99999999999999
                             #구매시간
                             buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
-                            #buy_money_0 = buy_money_0*2
+                            water_persent_0 = 0.99
                             time.sleep(5)
                     elif count2 == 'true':
                         buy_money_1 = 100000
@@ -212,7 +214,7 @@ while True:
                             #구매시간
                             buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             price2_097 = 99999999999999
-                            #buy_money_1 = buy_money_1*2
+                            water_persent_1 = 0.99
                             time.sleep(5)
                     elif count3 == 'true':
                         buy_money_2 = 100000
@@ -227,7 +229,7 @@ while True:
                             #구매시간
                             buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             price3_097 = 99999999999999
-                            #buy_money_2 = buy_money_2*2
+                            water_persent_2 = 0.99
                             time.sleep(5)
 
                 if (count1 == 'false') :
@@ -260,7 +262,7 @@ while True:
                     web1_4 = 'false'
                     web1_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((water_buy_price_0 * 0.995) > (get_current_price(buycoin_0))):
+                elif (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((buy_price_0 * water_persent_0) > (get_current_price(buycoin_0))):
                     krw = get_balance("KRW")
                     if krw > buy_money_0*2:
                         upbit.buy_market_order(buycoin_0, buy_money_0*2)
@@ -274,6 +276,7 @@ while True:
                         else :
                             old_plus_buy_0 = old_plus_buy_0 + buy_money_0
                         water_buy_price_0 = old_plus_buy_0/upbit.get_balance(buycoin_0[4:])
+                        water_persent_0 = water_persent_0 - 0.01
                         time.sleep(1)
                 #물타기
                 #elif (count1 == 'false') and ((buy_price_0 * 0.995) > (get_current_price(buycoin_0))) and (web1_1 == 'false'):
@@ -364,7 +367,7 @@ while True:
                     web2_4 = 'false'
                     web2_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((water_buy_price_1 * 0.995) > (get_current_price(buycoin_1))):
+                elif (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((buy_price_1 * water_persent_1) > (get_current_price(buycoin_1))):
                     krw = get_balance("KRW")
                     if krw > buy_money_1*2:
                         upbit.buy_market_order(buycoin_1, buy_money_1*2)
@@ -378,6 +381,7 @@ while True:
                         else :
                             old_plus_buy_1 = old_plus_buy_1 + buy_money_1
                         water_buy_price_1 = old_plus_buy_1/upbit.get_balance(buycoin_1[4:])
+                        water_persent_1 = water_persent_1 - 0.01
                         time.sleep(1)
                 #물타기
                 #elif (count2 == 'false') and ((buy_price_1 * 0.995) > (get_current_price(buycoin_1))) and (web2_1 == 'false'):
@@ -468,7 +472,7 @@ while True:
                     web3_4 = 'false'
                     web3_5 = 'false'
                 #다시 돌파시 물타기
-                elif (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((water_buy_price_2 * 0.995) > (get_current_price(buycoin_2))):
+                elif (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((buy_price_2 * water_persent_2) > (get_current_price(buycoin_2))):
                     krw = get_balance("KRW")
                     if krw > buy_money_2*2:
                         upbit.buy_market_order(buycoin_2, buy_money_2*2)
@@ -482,6 +486,7 @@ while True:
                         else :
                             old_plus_buy_2 = old_plus_buy_2 + buy_money_2
                         water_buy_price_2 = old_plus_buy_2/upbit.get_balance(buycoin_2[4:])
+                        water_persent_2 = water_persent_2 - 0.01
                         time.sleep(1)
                 #물타기
                 #elif (count3 == 'false') and ((buy_price_2 * 0.995) > (get_current_price(buycoin_2))) and (web3_1 == 'false'):
