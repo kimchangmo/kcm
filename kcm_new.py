@@ -111,6 +111,17 @@ def rsiindex(symbol):
     print('Upbit 10 minute oldRSI:', oldrsi)
     print('Upbit now RSI:', rsi)
     print('')
+    
+#거래대금
+acc_trade_price_24h = 0
+def acc_trade_price_24h(ticker):
+    global acc_trade_price_24h
+    url = "https://api.upbit.com/v1/ticker"
+    querystring = {"markets":ticker}
+    response = requests.request("GET", url, params=querystring)
+
+    res_json = response.json()
+    acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
@@ -165,6 +176,8 @@ while True:
             coin = all_coin[n]
             #인공지능
             predict_price(coin)
+            #거래대금
+            acc_trade_price_24h(coin)
             df = pyupbit.get_ohlcv(coin)
             open_price = df['open'].iloc[-1]
 
@@ -180,11 +193,12 @@ while True:
                 rsiindex(coin)
                 print('band_high:', band_high)
                 print('current_price:', current_price)
+                print('acc_trade_price_24h:', acc_trade_price_24h)
                 #if (30 > oldrsi) and (30 < rsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #인공지능 적용 비교문
                 #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #이전,이이전 비교문
-                if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) acc_trade_price_24h > 600000000000 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         buy_money_0 = 100000
