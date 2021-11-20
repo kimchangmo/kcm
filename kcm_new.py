@@ -198,7 +198,7 @@ while True:
                 #인공지능 적용 비교문
                 #if (30 > oldrsi) and (30 < rsi) and predicted_close_price/current_price > 1.05 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #이전,이이전 비교문
-                if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) acc_trade_price_24h > 600000000000 and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) and (acc_trade_price_24h > 600000000000) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
                         buy_money_0 = 100000
