@@ -220,7 +220,7 @@ while True:
                             count1 = 'false'
                             price1_097 = 99999999999999
                             #구매시간
-                            buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                            buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                             water_persent_0 = 0.99
                             time.sleep(5)
                     elif count2 == 'true':
@@ -234,7 +234,7 @@ while True:
                             print("구매완료 코인 2:",  buycoin_1)
                             count2 = 'false'
                             #구매시간
-                            buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                            buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                             price2_097 = 99999999999999
                             water_persent_1 = 0.99
                             time.sleep(5)
@@ -249,7 +249,7 @@ while True:
                             print("구매완료 코인 3:",  buycoin_2)
                             count3 = 'false'
                             #구매시간
-                            buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                            buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                             price3_097 = 99999999999999
                             water_persent_2 = 0.99
                             time.sleep(5)
@@ -290,7 +290,7 @@ while True:
                     if krw > buy_money_0*2:
                         upbit.buy_market_order(buycoin_0, buy_money_0*2)
                         #구매시간 갱신
-                        buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                        buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                         #물타기가격 갱신(2배)
                         old_buy_money_0 = buy_money_0
                         buy_money_0 = buy_money_0*2
@@ -397,7 +397,7 @@ while True:
                     if krw > buy_money_1*2:
                         upbit.buy_market_order(buycoin_1, buy_money_1*2)
                         #구매시간 갱신
-                        buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                        buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                         #물타기가격 갱신(2배)
                         old_buy_money_1 = buy_money_1
                         buy_money_1 = buy_money_1*2
@@ -504,7 +504,7 @@ while True:
                     if krw > buy_money_2*2:
                         upbit.buy_market_order(buycoin_2, buy_money_2*2)
                         #구매시간 갱신
-                        buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                        buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=20)
                         #물타기가격 갱신(2배)
                         old_buy_money_2 = buy_money_2
                         buy_money_2 = buy_money_2*2
