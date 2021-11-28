@@ -186,7 +186,7 @@ while True:
 
             if True:
             #if start_time + datetime.timedelta(seconds=600) < now < end_time - datetime.timedelta(seconds=60):
-                #print("ing... :",  coin)
+                print("ing... :")
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
