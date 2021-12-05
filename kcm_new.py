@@ -488,9 +488,7 @@ while True:
                     web3_3 = 'false'
                     web3_4 = 'false'
                     web3_5 = 'false'
-                    
-                if (count1 == 'false') 
-                    
+
                 if (count1 == 'false') :
                     rsiindex(buycoin_0)
                 if (count1 == 'false') and ((water_buy_price_0) < (get_current_price(buycoin_0))) :
