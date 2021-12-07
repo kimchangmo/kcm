@@ -83,7 +83,7 @@ while True:
 
                 if (macd[2] >= macd2[2]) and (macd[1] < macd2[1]) and (count1 == 'true' or count2 == 'true' or count3 == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     if count1 == 'true':
-                        buy_money_0 = 100000
+                        buy_money_0 = 20000
                         krw = get_balance("KRW")
                         if krw > buy_money_0:
                             upbit.buy_market_order(coin, buy_money_0)
@@ -91,9 +91,10 @@ while True:
                             buy_price_0 = current_price
                             print("buy 1:",  buycoin_0)
                             count1 = 'false'
+                            buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             time.sleep(5)
                     elif count2 == 'true':
-                        buy_money_1 = 100000
+                        buy_money_1 = 20000
                         krw = get_balance("KRW")
                         if krw > buy_money_1:
                             upbit.buy_market_order(coin, buy_money_1)
@@ -101,9 +102,10 @@ while True:
                             buy_price_1 = current_price
                             print("buy 2:",  buycoin_1)
                             count2 = 'false'
+                            buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             time.sleep(5)
                     elif count3 == 'true':
-                        buy_money_2 = 100000
+                        buy_money_2 = 20000
                         krw = get_balance("KRW")
                         if krw > buy_money_2:
                             upbit.buy_market_order(coin, buy_money_2)
@@ -111,6 +113,7 @@ while True:
                             buy_price_2 = current_price
                             print("buy 3:",  buycoin_2)
                             count3 = 'false'
+                            buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             time.sleep(5)
 
 ##################################1 buy_coin######################################################################################
@@ -126,7 +129,7 @@ while True:
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
-                if (count1 == 'false') and (macd[1] > macd2[1]) :
+                if (count1 == 'false') and (now > buytime1) and (macd[1] > macd2[1]) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -144,7 +147,7 @@ while True:
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
-                if (count2 == 'false') and (macd[1] > macd2[1]) :
+                if (count2 == 'false') and (now > buytime2) and (macd[1] > macd2[1]) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -162,7 +165,7 @@ while True:
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
-                if (count3 == 'false') and (macd[1] > macd2[1]) :
+                if (count3 == 'false') and (now > buytime3) and (macd[1] > macd2[1]) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
