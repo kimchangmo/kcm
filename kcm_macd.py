@@ -122,7 +122,7 @@ while True:
                     df = pd.DataFrame(data)
                     df=df.iloc[::-1]
                     macd = MACD(df['trade_price'])
-                if (count1 == 'false') and ((water_buy_price_0 * 1.01) < (get_current_price(buycoin_0))) :
+                if (count1 == 'false') and ((water_buy_price_0 * 1.03) < (get_current_price(buycoin_0))) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -140,7 +140,7 @@ while True:
                     df = pd.DataFrame(data)
                     df=df.iloc[::-1]
                     macd = MACD(df['trade_price'])
-                if (count2 == 'false') and ((water_buy_price_1 * 1.01) < (get_current_price(buycoin_1))) :
+                if (count2 == 'false') and ((water_buy_price_1 * 1.03) < (get_current_price(buycoin_1))) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -158,7 +158,7 @@ while True:
                     df = pd.DataFrame(data)
                     df=df.iloc[::-1]
                     macd = MACD(df['trade_price'])
-                if (count3 == 'false') and ((water_buy_price_2 * 1.01) < (get_current_price(buycoin_2))) :
+                if (count3 == 'false') and ((water_buy_price_2 * 1.03) < (get_current_price(buycoin_2))) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
