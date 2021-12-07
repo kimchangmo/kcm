@@ -217,7 +217,7 @@ while True:
                             price1_097 = 99999999999999
                             #구매시간
                             buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
-                            overtime1 = datetime.datetime.now() + datetime.timedelta(hours=3)
+                            overtime1 = datetime.datetime.now() + datetime.timedelta(hours=1)
                             water_persent_0 = 0.99
                             print("buytime 1:",  buytime1)
                             print("overtime 1:",  overtime1)
@@ -234,7 +234,7 @@ while True:
                             count2 = 'false'
                             #구매시간
                             buytime2 = datetime.datetime.now() + datetime.timedelta(minutes=7)
-                            overtime2 = datetime.datetime.now() + datetime.timedelta(hours=3)
+                            overtime2 = datetime.datetime.now() + datetime.timedelta(hours=1)
                             price2_097 = 99999999999999
                             water_persent_1 = 0.99
                             print("buytime 2:",  buytime2)
@@ -252,7 +252,7 @@ while True:
                             count3 = 'false'
                             #구매시간
                             buytime3 = datetime.datetime.now() + datetime.timedelta(minutes=7)
-                            overtime3 = datetime.datetime.now() + datetime.timedelta(hours=3)
+                            overtime3 = datetime.datetime.now() + datetime.timedelta(hours=1)
                             price3_097 = 99999999999999
                             water_persent_2 = 0.99
                             print("buytime 3:",  buytime3)
