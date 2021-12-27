@@ -261,7 +261,7 @@ while True:
 
                 if (count1 == 'false') :
                     rsiindex(buycoin_0)
-                if (count1 == 'false') and ((water_buy_price_0 * 1.02) < (get_current_price(buycoin_0))) :
+                if (count1 == 'false') and ((water_buy_price_0 * 1.01) < (get_current_price(buycoin_0))) :
                     btc_0 = upbit.get_balance(buycoin_0[4:])
                     upbit.sell_market_order(buycoin_0, btc_0)
                     count1 = 'true'
@@ -298,8 +298,18 @@ while True:
                     web1_3 = 'false'
                     web1_4 = 'false'
                     web1_5 = 'false'
+                #150 본전매도
+                if (count1 == 'false') and (buy_money_0 == 800000) and ((water_buy_price_0) < (get_current_price(buycoin_0))) :
+                    btc_0 = upbit.get_balance(buycoin_0[4:])
+                    upbit.sell_market_order(buycoin_0, btc_0)
+                    count1 = 'true'
+                    web1_1 = 'false'
+                    web1_2 = 'false'
+                    web1_3 = 'false'
+                    web1_4 = 'false'
+                    web1_5 = 'false'
                 #다시 돌파시 물타기
-                if (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((buy_price_0 * 0.98) > (get_current_price(buycoin_0))):
+                if (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((buy_price_0 * 0.95) > (get_current_price(buycoin_0))):
                     krw = get_balance("KRW")
                     if krw > buy_money_0*2:
                         upbit.buy_market_order(buycoin_0, buy_money_0*2)
@@ -322,7 +332,7 @@ while True:
 
                 if (count2 == 'false') :
                     rsiindex(buycoin_1)
-                if (count2 == 'false') and ((water_buy_price_1 * 1.02) < (get_current_price(buycoin_1))) :
+                if (count2 == 'false') and ((water_buy_price_1 * 1.01) < (get_current_price(buycoin_1))) :
                     btc_1 = upbit.get_balance(buycoin_1[4:])
                     upbit.sell_market_order(buycoin_1, btc_1)
                     count2 = 'true'
@@ -359,8 +369,18 @@ while True:
                     web2_3 = 'false'
                     web2_4 = 'false'
                     web2_5 = 'false'
+                #150 본전매도
+                if (count2 == 'false') and (buy_money_1 == 800000) and ((water_buy_price_1) < (get_current_price(buycoin_1))) :
+                    btc_1 = upbit.get_balance(buycoin_1[4:])
+                    upbit.sell_market_order(buycoin_1, btc_1)
+                    count2 = 'true'
+                    web2_1 = 'false'
+                    web2_2 = 'false'
+                    web2_3 = 'false'
+                    web2_4 = 'false'
+                    web2_5 = 'false'
                 #다시 돌파시 물타기
-                if (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((buy_price_1 * 0.98) > (get_current_price(buycoin_1))):
+                if (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((buy_price_1 * 0.95) > (get_current_price(buycoin_1))):
                     krw = get_balance("KRW")
                     if krw > buy_money_1*2:
                         upbit.buy_market_order(buycoin_1, buy_money_1*2)
@@ -383,7 +403,7 @@ while True:
 
                 if (count3 == 'false') :
                     rsiindex(buycoin_2)
-                if (count3 == 'false') and ((water_buy_price_2 * 1.02) < (get_current_price(buycoin_2))) :
+                if (count3 == 'false') and ((water_buy_price_2 * 1.01) < (get_current_price(buycoin_2))) :
                     btc_2 = upbit.get_balance(buycoin_2[4:])
                     upbit.sell_market_order(buycoin_2, btc_2)
                     count3 = 'true'
@@ -420,8 +440,18 @@ while True:
                     web3_3 = 'false'
                     web3_4 = 'false'
                     web3_5 = 'false'
+                #150 본전매도
+                if (count3 == 'false') and (buy_money_2 == 800000) and ((water_buy_price_2) < (get_current_price(buycoin_2))) :
+                    btc_2 = upbit.get_balance(buycoin_2[4:])
+                    upbit.sell_market_order(buycoin_2, btc_2)
+                    count3 = 'true'
+                    web3_1 = 'false'
+                    web3_2 = 'false'
+                    web3_3 = 'false'
+                    web3_4 = 'false'
+                    web3_5 = 'false'
                 #다시 돌파시 물타기
-                if (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((buy_price_2 * 0.98) > (get_current_price(buycoin_2))):
+                if (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((buy_price_2 * 0.95) > (get_current_price(buycoin_2))):
                     krw = get_balance("KRW")
                     if krw > buy_money_2*2:
                         upbit.buy_market_order(buycoin_2, buy_money_2*2)
@@ -501,7 +531,7 @@ while True:
                     web1_4 = 'false'
                     web1_5 = 'false'
                 #다시 돌파시 물타기
-                if (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((buy_price_0 * 0.98) > (get_current_price(buycoin_0))):
+                if (count1 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime1) and ((buy_price_0 * 0.95) > (get_current_price(buycoin_0))):
                     krw = get_balance("KRW")
                     if krw > buy_money_0*2:
                         upbit.buy_market_order(buycoin_0, buy_money_0*2)
@@ -534,7 +564,7 @@ while True:
                     web2_4 = 'false'
                     web2_5 = 'false'
                 #다시 돌파시 물타기
-                if (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((buy_price_1 * 0.98) > (get_current_price(buycoin_1))):
+                if (count2 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime2) and ((buy_price_1 * 0.95) > (get_current_price(buycoin_1))):
                     krw = get_balance("KRW")
                     if krw > buy_money_1*2:
                         upbit.buy_market_order(buycoin_1, buy_money_1*2)
@@ -567,7 +597,7 @@ while True:
                     web3_4 = 'false'
                     web3_5 = 'false'
                 #다시 돌파시 물타기
-                if (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((buy_price_2 * 0.98) > (get_current_price(buycoin_2))):
+                if (count3 == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > buytime3) and ((buy_price_2 * 0.95) > (get_current_price(buycoin_2))):
                     krw = get_balance("KRW")
                     if krw > buy_money_2*2:
                         upbit.buy_market_order(buycoin_2, buy_money_2*2)
