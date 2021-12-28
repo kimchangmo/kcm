@@ -143,6 +143,7 @@ all_coin.remove('KRW-BTC')
 #old_plus_buy_2 = 0
 
 coin_buy_index = 5
+delay_time = 6
 
 for i in range(0, coin_buy_index):
     globals()['count_{}'.format(i)] = 'true'
@@ -208,7 +209,7 @@ while True:
                                 globals()['count_{}'.format(i)] = 'false'
                                 #count1 = 'false'
                                 #구매시간
-                                globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                                globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
                                 #buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                                 globals()['overtime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(hours=1)
                                 #overtime1 = datetime.datetime.now() + datetime.timedelta(hours=1)
@@ -266,7 +267,7 @@ while True:
                         if krw > globals()['buy_money_{}'.format(i)]*2:
                             upbit.buy_market_order(globals()['buycoin_{}'.format(i)], globals()['buy_money_{}'.format(i)]*2)
                             #구매시간 갱신
-                            globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                            globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
                             #buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             #물타기가격 갱신(2배)
                             globals()['old_buy_money_{}'.format(i)] = globals()['buy_money_{}'.format(i)]
@@ -308,7 +309,7 @@ while True:
                         if krw > globals()['buy_money_{}'.format(i)]*2:
                             upbit.buy_market_order(globals()['buycoin_{}'.format(i)], globals()['buy_money_{}'.format(i)]*2)
                             #구매시간 갱신
-                            globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=7)
+                            globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
                             #buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                             #물타기가격 갱신(2배)
                             globals()['old_buy_money_{}'.format(i)] = globals()['buy_money_{}'.format(i)]
