@@ -71,7 +71,7 @@ def rsiindex(symbol):
     global old_old_rsi
     global band_high
     global band_low
-    url = "https://api.upbit.com/v1/candles/minutes/5"
+    url = "https://api.upbit.com/v1/candles/minutes/15"
     querystring = {"market":symbol,"count":"500"}
     response = requests.request("GET", url, params=querystring)
     data = response.json()
@@ -143,9 +143,9 @@ all_coin.remove('KRW-BTC')
 #old_plus_buy_2 = 0
 
 #총 몇개 돌릴건지 설정
-coin_buy_index = 5
+coin_buy_index = 6
 #분봉 +1
-delay_time = 6
+delay_time = 16
 
 for i in range(0, coin_buy_index):
     globals()['count_{}'.format(i)] = 'true'
