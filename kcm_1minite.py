@@ -106,15 +106,12 @@ while True:
                 #print(old_ma20)
                 #print(old_ma60)
                 #이전,이이전 비교문
-                #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #test
-                if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
-                    print("OK1")
+                #if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
-                            print("OK2")
                             krw = get_balance("KRW")
-                            print("OK3")
                             if krw > buy_money:
                                 upbit.buy_market_order(coin, buy_money)
                                 globals()['buycoin_{}'.format(i)] = coin
