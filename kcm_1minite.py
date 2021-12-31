@@ -148,8 +148,8 @@ while True:
                         count_all = 'true'
                         break
 
-                get_ma(coin)
-                print('코인: ', coin, current_price)
+                #get_ma(coin)
+                #print('코인: ', coin, current_price)
                 #print(now_ma20)
                 #print(now_ma60)
                 #print(old_ma20)
@@ -170,6 +170,7 @@ while True:
                 #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #rsi 매수
                 if (30 > old_old_rsi) and (30 < oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                    print("OK1")
                 #test
                 #if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
@@ -183,6 +184,7 @@ while True:
                                 print("buy:",  globals()['buycoin_{}'.format(i)])
                                 globals()['count_{}'.format(i)] = 'false'
                                 globals()['old_old_price_{}'.format(i)] = old_old_price
+                                print("OK2")
                                 time.sleep(5)
                             break
                 
