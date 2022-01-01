@@ -42,7 +42,7 @@ def get_ma(ticker):
     global now_ma60
     global old_ma20
     global old_ma60
-    url = "https://api.upbit.com/v1/candles/minutes/1"
+    url = "https://api.upbit.com/v1/candles/minutes/5"
     querystring = {"market":ticker,"count":"200"}
     response = requests.request("GET", url, params=querystring)
     data = response.json()
@@ -69,7 +69,7 @@ def rsiindex(symbol):
     global old_old_rsi
     global band_high
     global band_low
-    url = "https://api.upbit.com/v1/candles/minutes/1"
+    url = "https://api.upbit.com/v1/candles/minutes/5"
     querystring = {"market":symbol,"count":"500"}
     response = requests.request("GET", url, params=querystring)
     data = response.json()
@@ -132,7 +132,8 @@ def change_coin_list():
         try:
             acc_trade_def(all_coin[p])
             current_price = get_current_price(all_coin[p])
-            if acc_trade_price_24h > 20000000000 and current_price > 3000:
+            #if acc_trade_price_24h > 20000000000 and current_price > 3000:
+            if acc_trade_price_24h > 10000000000:
                 use_coin.append(all_coin[p])
             p = p+1
         except Exception as e:
@@ -187,7 +188,7 @@ while True:
                 #print(old_ma60)
                 
                 #코인 전전가격 체크
-                url = "https://api.upbit.com/v1/candles/minutes/1"
+                url = "https://api.upbit.com/v1/candles/minutes/5"
                 querystring = {"market":coin,"count":"200"}
                 response = requests.request("GET", url, params=querystring)
                 data = response.json()
@@ -230,8 +231,8 @@ while True:
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
 
-                    #0.3퍼 판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.003) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #0.5퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
@@ -258,8 +259,8 @@ while True:
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
 
-                    #0.3퍼 판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.003) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #0.5퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
