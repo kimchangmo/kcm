@@ -135,8 +135,8 @@ while True:
             start_time = get_start_time(coin)
             end_time = start_time + datetime.timedelta(days=1)
 
-            #if True:
-            if start_time < now < end_time - datetime.timedelta(hours=1):
+            if True:
+            #if start_time < now < end_time - datetime.timedelta(hours=1):
                 #print("ing... :")
                 current_price = get_current_price(coin)
                 rsiindex(coin)
@@ -150,7 +150,7 @@ while True:
                         break
 
                 #get_ma(coin)
-                #print('코인: ', coin, current_price)
+                print('코인: ', coin, current_price)
                 #print(now_ma20)
                 #print(now_ma60)
                 #print(old_ma20)
