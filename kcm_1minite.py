@@ -120,7 +120,7 @@ upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 all_coin = pyupbit.get_tickers('KRW')
 all_coin.remove('KRW-MED')
-all_coin.remove('KRW-BTC')
+#all_coin.remove('KRW-BTC')
 
 #사용코인 목록
 def change_coin_list():
