@@ -114,7 +114,7 @@ def acc_trade_def(ticker):
     response = requests.request("GET", url, params=querystring)
     res_json = response.json()
     acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
-    
+
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
@@ -122,20 +122,25 @@ all_coin = pyupbit.get_tickers('KRW')
 all_coin.remove('KRW-MED')
 all_coin.remove('KRW-BTC')
 
-#거래량 + 코인가격으로 거르기
-p = 0
-use_coin = []
-while p < len(all_coin) :
-    try:
-        acc_trade_def(all_coin[p])
-        current_price = get_current_price(all_coin[p])
-        if acc_trade_price_24h > 20000000000 and current_price > 3000:
-            use_coin.append(all_coin[p])
-        p = p+1
-    except Exception as e:
-        print(e)
-        time.sleep(1)
-print(use_coin)
+#사용코인 목록
+def change_coin_list():
+    #거래량 + 코인가격으로 거르기
+    p = 0
+    global use_coin
+    use_coin = []
+    while p < len(all_coin) :
+        try:
+            acc_trade_def(all_coin[p])
+            current_price = get_current_price(all_coin[p])
+            if acc_trade_price_24h > 20000000000 and current_price > 3000:
+                use_coin.append(all_coin[p])
+            p = p+1
+        except Exception as e:
+            print(e)
+            time.sleep(1)
+    print(use_coin)
+schedule.every(6).hours.do(change_coin_list)
+change_coin_list()
 
 #총 몇개 돌릴건지 설정
 coin_buy_index = 6
@@ -150,6 +155,8 @@ for i in range(0, coin_buy_index):
 
 while True:
     n = 0
+    schedule.run_pending()
+    time.sleep(1)
     while n < len(use_coin) : #총 코인 갯수
         try:
             coin = use_coin[n]
@@ -172,7 +179,7 @@ while True:
                         break
 
                 #get_ma(coin)
-                print('coin: ', coin, current_price)
+                print('코인: ', coin, current_price)
                 print('rsi: ', old_old_rsi, oldrsi)
                 #print(now_ma20)
                 #print(now_ma60)
@@ -197,7 +204,7 @@ while True:
                 #이평선 매수
                 #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #rsi 매수
-                if (30 < old_old_rsi) and (30 <= oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 <= oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #test
                 #if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
