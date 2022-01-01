@@ -170,7 +170,7 @@ while True:
                 #이평선 매수
                 #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #rsi 매수
-                if (30 < old_old_rsi) and (30 < oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 <= oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     print("OK1")
                 #test
                 #if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
