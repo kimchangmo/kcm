@@ -105,6 +105,16 @@ def rsiindex(symbol):
     old_old_rsi = rsi(df[old_old], 14).iloc[-1]
     rsi = rsi(df, 14).iloc[-1]
     
+acc_trade_price_24h = 0
+def acc_trade_def(ticker):
+    global acc_trade_price_24h
+    #거래대금
+    url = "https://api.upbit.com/v1/ticker"
+    querystring = {"markets":ticker}
+    response = requests.request("GET", url, params=querystring)
+    res_json = response.json()
+    acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
+    
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
@@ -167,6 +177,10 @@ while True:
                 old_old_price = df[2]
                 #print("old_old:" , old_old_price)
                 
+                #거래대금
+                acc_trade_def(coin)
+                print('거래대금: ', acc_trade_price_24h)
+                
                 #이평선 매수
                 #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #rsi 매수
@@ -195,17 +209,6 @@ while True:
                     #rsi 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
-                        
-                        #코인 전전가격 체크
-                        url = "https://api.upbit.com/v1/candles/minutes/1"
-                        querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"200"}
-                        response = requests.request("GET", url, params=querystring)
-                        data = response.json()
-                        df = pd.DataFrame(data)
-                        df=df['trade_price'].iloc[::-1]
-                        #print(coin, ":" , df)
-                        old_old_price = df[2]
-                        #print("old_old:" , old_old_price)
 
                     #0.3퍼 판매
                     if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.003) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
