@@ -91,7 +91,7 @@ def rsiindex(symbol):
     old_old = df['index'] > 1
     
     def rsi(ohlc: pd.DataFrame, period: int = 14):
-        ohlc["trade_price"] = ohlc["trade_price"]
+        #ohlc["trade_price"] = ohlc["trade_price"]
         delta = ohlc["trade_price"].diff()
         gains, declines = delta.copy(), delta.copy()
         gains[gains < 0] = 0
@@ -165,9 +165,10 @@ while True:
             start_time = get_start_time(coin)
             end_time = start_time + datetime.timedelta(days=1)
 
-            #if True:
-            if start_time < now < end_time - datetime.timedelta(hours=1):
-                print("ing... :")
+            if True:
+            #if start_time < now < end_time - datetime.timedelta(hours=1):
+                #print("ing... :")
+                print("coin:", coin)
                 #target_price = get_target_price(coin, 0.5)
                 current_price = get_current_price(coin)
                 rsiindex(coin)
@@ -175,11 +176,11 @@ while True:
                 #print('current_price:', current_price)
                 
                 #거래대금
-                url = "https://api.upbit.com/v1/ticker"
-                querystring = {"markets":coin}
-                response = requests.request("GET", url, params=querystring)
-                res_json = response.json()
-                acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
+                #url = "https://api.upbit.com/v1/ticker"
+                #querystring = {"markets":coin}
+                #response = requests.request("GET", url, params=querystring)
+                #res_json = response.json()
+                #acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
                 #print(coin,":", acc_trade_price_24h)
                 
                 #모든 코인구매칸이 다찼는지 확인
@@ -193,7 +194,7 @@ while True:
                 #인공지능 적용 비교문
                 #이전,이이전 비교문
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) and (acc_trade_price_24h > 100000000000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
-                if (30 > old_old_rsi) and (30 < oldrsi) and (acc_trade_price_24h > 100000000000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = 100000
@@ -207,14 +208,12 @@ while True:
                                 #buy_price_{} = current_price
                                 globals()['water_buy_price_{}'.format(i)] = current_price
                                 #water_buy_price_{} = current_price
-                                print("buy 1:",  globals()['buycoin_{}'.format(i)])
+                                print("buy:",  globals()['buycoin_{}'.format(i)])
                                 globals()['count_{}'.format(i)] = 'false'
                                 #count1 = 'false'
                                 #구매시간
                                 globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
-                                #buytime1 = datetime.datetime.now() + datetime.timedelta(minutes=7)
                                 globals()['overtime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(hours=1)
-                                #overtime1 = datetime.datetime.now() + datetime.timedelta(hours=1)
                                 time.sleep(5)
                             break
                 
@@ -223,8 +222,8 @@ while True:
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
                         
-                    #0.5퍼 판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #3퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.03) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
@@ -239,8 +238,8 @@ while True:
                         globals()['count_{}'.format(i)] = 'true'
                         #count1 = 'true'
 
-                    #볼밴상단에 터치시 1퍼 판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((get_current_price(globals()['buycoin_{}'.format(i)])) > band_high) and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #볼밴상단에 터치시 2퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((get_current_price(globals()['buycoin_{}'.format(i)])) > band_high) and ((globals()['water_buy_price_{}'.format(i)] * 1.02) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
@@ -256,15 +255,23 @@ while True:
                         #count1 = 'true'
 
                     #150까지 매수시 본전매도
-                    if (globals()['count_{}'.format(i)] == 'false') and (globals()['buy_money_{}'.format(i)] == 800000) and ((globals()['water_buy_price_{}'.format(i)]) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #if (globals()['count_{}'.format(i)] == 'false') and (globals()['buy_money_{}'.format(i)] == 800000) and ((globals()['water_buy_price_{}'.format(i)]) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                    #    #btc_0 = upbit.get_balance(buycoin_0[4:])
+                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                    #    globals()['count_{}'.format(i)] = 'true'
+                    #    #count1 = 'true'
+                        
+                    #40까지 물타고 rsi70 역돌파시 손절
+                    if (globals()['count_{}'.format(i)] == 'false') and (oldrsi < 70) and (70 < old_old_rsi) and (globals()['buy_money_{}'.format(i)] == 400000) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
                         #count1 = 'true'
 
-                    #다시 돌파시 물타기
-                    if (globals()['count_{}'.format(i)] == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > globals()['buytime_{}'.format(i)]) and ((globals()['buy_price_{}'.format(i)] * 0.96) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
+                    #다시 돌파시 물타기 40만원까지만
+                    if (globals()['count_{}'.format(i)] == 'false') and (globals()['buy_money_{}'.format(i)] < 800000) and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > globals()['buytime_{}'.format(i)]) and ((globals()['buy_price_{}'.format(i)] * 0.97) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
                         krw = get_balance("KRW")
                         if krw > globals()['buy_money_{}'.format(i)]*2:
                             upbit.buy_market_order(globals()['buycoin_{}'.format(i)], globals()['buy_money_{}'.format(i)]*2)
@@ -297,8 +304,32 @@ while True:
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
                         
-                    #0.5퍼 판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #3퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.03) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        #btc_0 = upbit.get_balance(buycoin_0[4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
+                        #count1 = 'true'
+
+                    #rsi70 역돌파시 본전매도
+                    if (globals()['count_{}'.format(i)] == 'false') and (oldrsi < 70) and (70 < old_old_rsi) and ((globals()['water_buy_price_{}'.format(i)]) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        #btc_0 = upbit.get_balance(buycoin_0[4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
+                        #count1 = 'true'
+
+                    #볼밴상단에 터치시 2퍼 판매
+                    if (globals()['count_{}'.format(i)] == 'false') and ((get_current_price(globals()['buycoin_{}'.format(i)])) > band_high) and ((globals()['water_buy_price_{}'.format(i)] * 1.02) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        #btc_0 = upbit.get_balance(buycoin_0[4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
+                        #count1 = 'true'
+
+                    #overtime 만큼 지나면 1퍼판매
+                    if (globals()['count_{}'.format(i)] == 'false') and (now > globals()['overtime_{}'.format(i)]) and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
@@ -306,15 +337,23 @@ while True:
                         #count1 = 'true'
 
                     #150까지 매수시 본전매도
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)]) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #if (globals()['count_{}'.format(i)] == 'false') and (globals()['buy_money_{}'.format(i)] == 800000) and ((globals()['water_buy_price_{}'.format(i)]) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                    #    #btc_0 = upbit.get_balance(buycoin_0[4:])
+                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                    #    globals()['count_{}'.format(i)] = 'true'
+                    #    #count1 = 'true'
+                        
+                    #40까지 물타고 rsi70 역돌파시 손절
+                    if (globals()['count_{}'.format(i)] == 'false') and (oldrsi < 70) and (70 < old_old_rsi) and (globals()['buy_money_{}'.format(i)] == 400000) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         #btc_0 = upbit.get_balance(buycoin_0[4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
                         #count1 = 'true'
 
-                    #다시 돌파시 물타기
-                    if (globals()['count_{}'.format(i)] == 'false') and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > globals()['buytime_{}'.format(i)]) and ((globals()['buy_price_{}'.format(i)] * 0.96) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
+                    #다시 돌파시 물타기 40만원까지만
+                    if (globals()['count_{}'.format(i)] == 'false') and (globals()['buy_money_{}'.format(i)] < 800000) and (30 > old_old_rsi) and (30 < oldrsi) and (30 < rsi) and (now > globals()['buytime_{}'.format(i)]) and ((globals()['buy_price_{}'.format(i)] * 0.97) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
                         krw = get_balance("KRW")
                         if krw > globals()['buy_money_{}'.format(i)]*2:
                             upbit.buy_market_order(globals()['buycoin_{}'.format(i)], globals()['buy_money_{}'.format(i)]*2)
