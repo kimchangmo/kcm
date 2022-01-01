@@ -195,6 +195,17 @@ while True:
                     #rsi 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
                         rsiindex(globals()['buycoin_{}'.format(i)])
+                        
+                        #코인 전전가격 체크
+                        url = "https://api.upbit.com/v1/candles/minutes/1"
+                        querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"200"}
+                        response = requests.request("GET", url, params=querystring)
+                        data = response.json()
+                        df = pd.DataFrame(data)
+                        df=df['trade_price'].iloc[::-1]
+                        #print(coin, ":" , df)
+                        old_old_price = df[2]
+                        #print("old_old:" , old_old_price)
 
                     #0.3퍼 판매
                     if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.003) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
