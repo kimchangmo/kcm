@@ -89,7 +89,7 @@ def rsiindex(symbol):
     old_old = df['index'] > 1
     
     def rsi(ohlc: pd.DataFrame, period: int = 14):
-        ohlc["trade_price"] = ohlc["trade_price"]
+        #ohlc["trade_price"] = ohlc["trade_price"]
         delta = ohlc["trade_price"].diff()
         gains, declines = delta.copy(), delta.copy()
         gains[gains < 0] = 0
@@ -121,8 +121,21 @@ print("autotrade start")
 all_coin = pyupbit.get_tickers('KRW')
 all_coin.remove('KRW-MED')
 all_coin.remove('KRW-BTC')
-all_coin.remove('KRW-XRP')
-all_coin.remove('KRW-ETH')
+
+#거래량 + 코인가격으로 거르기
+p = 0
+use_coin = []
+while p < len(all_coin) :
+    try:
+        acc_trade_def(all_coin[p])
+        current_price = get_current_price(all_coin[p])
+        if acc_trade_price_24h > 20000000000 and current_price > 3000:
+            use_coin.append(all_coin[p])
+        p = p+1
+    except Exception as e:
+        print(e)
+        time.sleep(1)
+print(use_coin)
 
 #총 몇개 돌릴건지 설정
 coin_buy_index = 6
@@ -137,9 +150,9 @@ for i in range(0, coin_buy_index):
 
 while True:
     n = 0
-    while n < len(all_coin) : #총 코인 갯수
+    while n < len(use_coin) : #총 코인 갯수
         try:
-            coin = all_coin[n]
+            coin = use_coin[n]
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
@@ -147,7 +160,6 @@ while True:
 
             if True:
             #if start_time < now < end_time - datetime.timedelta(hours=1):
-                #print("ing... :")
                 current_price = get_current_price(coin)
                 rsiindex(coin)
                 
@@ -160,7 +172,8 @@ while True:
                         break
 
                 #get_ma(coin)
-                print('코인: ', coin, current_price)
+                print('coin: ', coin, current_price)
+                print('rsi: ', old_old_rsi, oldrsi)
                 #print(now_ma20)
                 #print(now_ma60)
                 #print(old_ma20)
@@ -178,14 +191,13 @@ while True:
                 #print("old_old:" , old_old_price)
                 
                 #거래대금
-                acc_trade_def(coin)
-                print('거래대금: ', acc_trade_price_24h)
+                #acc_trade_def(coin)
+                #print('거래대금: ', acc_trade_price_24h)
                 
                 #이평선 매수
                 #if (old_ma20 < old_ma60) and (now_ma20 > now_ma60) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #rsi 매수
-                if (30 > old_old_rsi) and (30 <= oldrsi) and (count_all == 'true') and (current_price > 3000) and (upbit.get_balance(coin[4:]) == 0):
-                    print("OK1")
+                if (30 < old_old_rsi) and (30 <= oldrsi) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #test
                 #if (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
@@ -196,10 +208,11 @@ while True:
                                 globals()['buycoin_{}'.format(i)] = coin
                                 globals()['buy_price_{}'.format(i)] = current_price
                                 globals()['water_buy_price_{}'.format(i)] = current_price
-                                print("buy:",  globals()['buycoin_{}'.format(i)])
+                                print("buy_coin:",  globals()['buycoin_{}'.format(i)])
                                 globals()['count_{}'.format(i)] = 'false'
                                 globals()['old_old_price_{}'.format(i)] = old_old_price
-                                print("OK2")
+                                print("buy_price:",globals()['buy_price_{}'.format(i)])
+                                print("sonjul_price:",globals()['old_old_price_{}'.format(i)])
                                 time.sleep(5)
                             break
                 
