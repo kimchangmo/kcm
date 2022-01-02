@@ -131,6 +131,7 @@ while True:
                                 globals()['water_buy_price_{}'.format(i)] = current_price
                                 print("buy:",  globals()['buycoin_{}'.format(i)])
                                 globals()['count_{}'.format(i)] = 'false'
+                                globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
                                 time.sleep(5)
                             break
                 
@@ -146,7 +147,7 @@ while True:
                         macd = MACD(df['trade_price'])
                         
                     #판매
-                    if (globals()['count_{}'.format(i)] == 'false') and (macd[1] > macd2[1]) :
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd[1] > macd2[1]) and (now > globals()['buytime_{}'.format(i)]):
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
