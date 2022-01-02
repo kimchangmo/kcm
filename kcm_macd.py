@@ -96,7 +96,7 @@ while True:
             if True:
             #if start_time < now < end_time - datetime.timedelta(hours=1):
                 print("coin:", coin)
-                print(macd[1]) # 이전 노랑선(신호선)
+                #print(macd[1]) # 이전 노랑선(신호선)
                 print(macd2[1]) # 이전 빨강선
                 print(macd2[0]) # 현재 빨강선
 
@@ -119,7 +119,7 @@ while True:
                         break
                 
                 #이전,이이전 비교문
-                if (macd2[1] < 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (macd2[1] < 0) and (macd2[0] > 0) and (macd2[0] > macd[0]) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = buy_money
