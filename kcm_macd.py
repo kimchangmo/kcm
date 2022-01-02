@@ -65,7 +65,7 @@ all_coin.remove('KRW-MED')
 all_coin.remove('KRW-BTC')
 
 #총 몇개 돌릴건지 설정
-coin_buy_index = 6
+coin_buy_index = 10
 #분봉 +1
 delay_time = 16
 #구매가
