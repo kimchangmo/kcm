@@ -64,6 +64,27 @@ all_coin = pyupbit.get_tickers('KRW')
 all_coin.remove('KRW-MED')
 all_coin.remove('KRW-BTC')
 
+#사용코인 목록
+def change_coin_list():
+    #거래량 + 코인가격으로 거르기
+    p = 0
+    global use_coin
+    use_coin = []
+    while p < len(all_coin) :
+        try:
+            acc_trade_def(all_coin[p])
+            current_price = get_current_price(all_coin[p])
+            #if acc_trade_price_24h > 20000000000 and current_price > 3000:
+            if current_price > 3000:
+                use_coin.append(all_coin[p])
+            p = p+1
+        except Exception as e:
+            print(e)
+            time.sleep(1)
+    print(use_coin)
+schedule.every(6).hours.do(change_coin_list)
+change_coin_list()
+
 #총 몇개 돌릴건지 설정
 coin_buy_index = 10
 #분봉 +1
@@ -77,9 +98,9 @@ for i in range(0, coin_buy_index):
 
 while True:
     n = 0
-    while n < len(all_coin) : #총 코인 갯수
+    while n < len(use_coin) : #총 코인 갯수
         try:
-            coin = all_coin[n]
+            coin = use_coin[n]
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
