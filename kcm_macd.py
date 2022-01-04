@@ -49,12 +49,18 @@ def acc_trade_price_24h(ticker):
 macd2 = 0
 def MACD(tradePrice):
     global macd2
-    exp12 = tradePrice.ewm(span=12, adjust=False).mean()
-    exp26 = tradePrice.ewm(span=26, adjust=False).mean()
-    macd = exp12-exp26
-    macd2 = exp12-exp26
-    exp = macd.ewm(span=9, adjust=False).mean()
-    exp12 = exp12.ewm(span=12, adjust=False).mean()
+    exp5 = tradePrice.ewm(span=5, adjust=False).mean()
+    #exp12 = tradePrice.ewm(span=12, adjust=False).mean()
+    exp20 = tradePrice.ewm(span=20, adjust=False).mean()
+    #exp26 = tradePrice.ewm(span=26, adjust=False).mean()
+    #macd = exp12-exp26
+    macd = exp5-exp20
+    #macd2 = exp12-exp26
+    macd2 = exp5-exp20
+    #exp = macd.ewm(span=9, adjust=False).mean()
+    exp = macd.ewm(span=5, adjust=False).mean()
+    #exp12 = exp12.ewm(span=12, adjust=False).mean()
+    exp5 = exp5.ewm(span=5, adjust=False).mean()
     return exp
 
 acc_trade_price_24h = 0
@@ -130,8 +136,9 @@ while True:
             if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 print("coin:", coin)
                 #print(macd[1]) # 이전 노랑선(신호선)
-                print(macd2[1]) # 이전 빨강선
-                print(macd2[0]) # 현재 빨강선
+                #print(macd2[1]) # 이전 빨강선
+                print("red_rine:",macd2[0]) # 현재 빨강선
+                print("yellow_rine:",macd[0]) # 현재 노랑선
 
                 current_price = get_current_price(coin)
                 
@@ -182,20 +189,16 @@ while True:
                         df = pd.DataFrame(data)
                         df=df.iloc[::-1]
                         macd = MACD(df['trade_price'])
-                        
-                    #판매
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd[1] > macd2[1]) and (now > globals()['buytime_{}'.format(i)]):
-                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
-                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
-                    #    globals()['count_{}'.format(i)] = 'true'
                     
                     #익절판매
                     if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
+
                     #손절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]):
+                    #if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
@@ -222,7 +225,8 @@ while True:
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
                     #손절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]):
+                    #if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
