@@ -57,6 +57,16 @@ def MACD(tradePrice):
     exp12 = exp12.ewm(span=12, adjust=False).mean()
     return exp
 
+acc_trade_price_24h = 0
+def acc_trade_def(ticker):
+    global acc_trade_price_24h
+    #거래대금
+    url = "https://api.upbit.com/v1/ticker"
+    querystring = {"markets":ticker}
+    response = requests.request("GET", url, params=querystring)
+    res_json = response.json()
+    acc_trade_price_24h = res_json[0]['acc_trade_price_24h']
+
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
