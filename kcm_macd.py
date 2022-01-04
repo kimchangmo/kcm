@@ -108,6 +108,8 @@ for i in range(0, coin_buy_index):
 
 while True:
     n = 0
+    schedule.run_pending()
+    time.sleep(1)
     while n < len(use_coin) : #총 코인 갯수
         try:
             coin = use_coin[n]
