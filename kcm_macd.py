@@ -158,12 +158,12 @@ while True:
                         count_all = 'true'
                         break
                 
-                #이전,이이전 비교문
+                #이전가 0 터치시 매수
                 #if (macd2[2] < 0) and (macd2[1] > 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #현재가 0 터치시 매수
-                if (macd2[1] < 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                #if (macd2[1] < 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #골든크로스
-                #if (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = buy_money
