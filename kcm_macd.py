@@ -192,7 +192,7 @@ while True:
                 for i in range(0, coin_buy_index):
                     #macd 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
-                        url = "https://api.upbit.com/v1/candles/minutes/15"
+                        url = "https://api.upbit.com/v1/candles/minutes/5"
                         querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"500"}
                         response = requests.request("GET", url, params=querystring)
                         data = response.json()
@@ -201,7 +201,7 @@ while True:
                         macd = MACD(df['trade_price'])
                     
                     #익절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
@@ -226,7 +226,7 @@ while True:
                 for i in range(0, coin_buy_index):
                     #macd 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
-                        url = "https://api.upbit.com/v1/candles/minutes/15"
+                        url = "https://api.upbit.com/v1/candles/minutes/5"
                         querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"500"}
                         response = requests.request("GET", url, params=querystring)
                         data = response.json()
