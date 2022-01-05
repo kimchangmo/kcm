@@ -125,15 +125,25 @@ while True:
             end_time = start_time + datetime.timedelta(days=1)
             
             url = "https://api.upbit.com/v1/candles/minutes/15"
-            querystring = {"market":coin,"count":"500"}
+            querystring = {"market":"KRW-BTC","count":"500"}
             response = requests.request("GET", url, params=querystring)
             data = response.json()
             df = pd.DataFrame(data)
             df=df.iloc[::-1]
             macd = MACD(df['trade_price'])
 
+            print("BTC red_rine:",macd2[0]) # 현재 빨강선
+            
             #if True:
-            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
+            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0):
+                url = "https://api.upbit.com/v1/candles/minutes/15"
+                querystring = {"market":coin,"count":"500"}
+                response = requests.request("GET", url, params=querystring)
+                data = response.json()
+                df = pd.DataFrame(data)
+                df=df.iloc[::-1]
+                macd = MACD(df['trade_price'])
+                
                 print("coin:", coin)
                 #print(macd[1]) # 이전 노랑선(신호선)
                 #print(macd2[1]) # 이전 빨강선
@@ -203,10 +213,10 @@ while True:
                         globals()['count_{}'.format(i)] = 'true'
                         
                     #손절판매(본전 -1퍼 이상 + 데드크로스)
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
-                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
-                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
-                    #    globals()['count_{}'.format(i)] = 'true'
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and ((globals()['water_buy_price_{}'.format(i)] * 0.98) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
 
                     #수동판매 대응
                     if (globals()['count_{}'.format(i)] == 'false') and (upbit.get_balance(globals()['buycoin_{}'.format(i)][4:]) == 0) :
@@ -231,16 +241,16 @@ while True:
                         globals()['count_{}'.format(i)] = 'true'
                         
                     #익절판매(본전이상 + 데드크로스)
-                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and ((globals()['water_buy_price_{}'.format(i)] * 1.02) < (get_current_price(globals()['buycoin_{}'.format(i)]))):
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.001) < (get_current_price(globals()['buycoin_{}'.format(i)]))):
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
                         
                     #손절판매(본전 -1퍼 이상 + 데드크로스)
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and ((globals()['water_buy_price_{}'.format(i)] * 0.99) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
-                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
-                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
-                    #    globals()['count_{}'.format(i)] = 'true'
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and ((globals()['water_buy_price_{}'.format(i)] * 0.98) > (get_current_price(globals()['buycoin_{}'.format(i)]))):
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
 
                     #수동판매 대응
                     if (globals()['count_{}'.format(i)] == 'false') and (upbit.get_balance(globals()['buycoin_{}'.format(i)][4:]) == 0) :
