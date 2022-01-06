@@ -135,8 +135,8 @@ while True:
             print("BTC red_rine:",macd2[0]) # 현재 빨강선
             
             #if True:
-            #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0):
-            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
+            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0):
+            #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 url = "https://api.upbit.com/v1/candles/minutes/15"
                 querystring = {"market":coin,"count":"500"}
                 response = requests.request("GET", url, params=querystring)
@@ -202,7 +202,7 @@ while True:
                         macd = MACD(df['trade_price'])
                     
                     #익절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
