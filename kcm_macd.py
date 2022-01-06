@@ -118,7 +118,7 @@ while True:
     time.sleep(1)
     while n < len(use_coin) : #총 코인 갯수
         try:
-            #coin = use_coin[n]
+            coin = use_coin[n]
 
             now = datetime.datetime.now()
             start_time = get_start_time(coin)
