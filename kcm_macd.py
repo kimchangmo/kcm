@@ -137,7 +137,7 @@ while True:
             #if True:
             if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0):
             #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
-                url = "https://api.upbit.com/v1/candles/minutes/15"
+                url = "https://api.upbit.com/v1/candles/minutes/5"
                 querystring = {"market":coin,"count":"500"}
                 response = requests.request("GET", url, params=querystring)
                 data = response.json()
@@ -193,7 +193,7 @@ while True:
                 for i in range(0, coin_buy_index):
                     #macd 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
-                        url = "https://api.upbit.com/v1/candles/minutes/15"
+                        url = "https://api.upbit.com/v1/candles/minutes/5"
                         querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"500"}
                         response = requests.request("GET", url, params=querystring)
                         data = response.json()
@@ -233,7 +233,7 @@ while True:
                 for i in range(0, coin_buy_index):
                     #macd 값 구하기
                     if (globals()['count_{}'.format(i)] == 'false') :
-                        url = "https://api.upbit.com/v1/candles/minutes/15"
+                        url = "https://api.upbit.com/v1/candles/minutes/5"
                         querystring = {"market":globals()['buycoin_{}'.format(i)],"count":"500"}
                         response = requests.request("GET", url, params=querystring)
                         data = response.json()
