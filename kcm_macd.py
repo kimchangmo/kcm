@@ -91,8 +91,7 @@ def change_coin_list():
             acc_trade_def(all_coin[p])
             current_price = get_current_price(all_coin[p])
             #if acc_trade_price_24h > 20000000000 and current_price > 3000:
-            #if current_price > 3000:
-            if current_price > 0:
+            if current_price > 400:
                 use_coin.append(all_coin[p])
             p = p+1
         except Exception as e:
@@ -137,8 +136,8 @@ while True:
             
             #if True:
             #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0) and (macd2[1] > 0):
-            if (macd2[0] > 0) and (macd2[1] > 0):
-            #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
+            #if (macd2[0] > 0) and (macd2[1] > 0):
+            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 url = "https://api.upbit.com/v1/candles/minutes/15"
                 querystring = {"market":coin,"count":"500"}
                 response = requests.request("GET", url, params=querystring)
@@ -173,7 +172,7 @@ while True:
                 
                 #이전가 0 터치시 매수
                 #if (macd2[2] < 0) and (macd2[1] > 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
-                #현재가 0 터치시 매수
+                #이전가 0 터치시 매수
                 if (macd2[2] < 0) and (macd2[1] > 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #골든크로스
                 #if (macd2[2] < 0) and (macd2[2] < macd[2]) and (macd2[1] >= macd[1]) and (macd2[0] >= macd[0]) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
