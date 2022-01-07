@@ -91,7 +91,8 @@ def change_coin_list():
             acc_trade_def(all_coin[p])
             current_price = get_current_price(all_coin[p])
             #if acc_trade_price_24h > 20000000000 and current_price > 3000:
-            if current_price > 3000:
+            #if current_price > 3000:
+            if current_price > 0:
                 use_coin.append(all_coin[p])
             p = p+1
         except Exception as e:
