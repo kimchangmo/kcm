@@ -63,8 +63,8 @@ def goldencross(symbol):
         call='골든크로스'     
     
     print(symbol)
-    print('이전 이동평균선 20: ', old_ma20)
-    print('이동평균선 20: ', round(ma20.iloc[-1],2))
+    print('old_rine 20: ', old_ma20)
+    print('rine 20: ', round(ma20.iloc[-1],2))
    #print('이동평균선 60: ', round(ma60.iloc[-1],2))
    #print('골든크로스/데드크로스: ',call)
     print('')
@@ -125,12 +125,15 @@ while True:
             #if True:
             if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1) and (current_price > ma20):
                 ma20 = goldencross(coin)
-                print("coin:", coin)
                 current_price = get_current_price(coin)
 
                 old_price = pyupbit.get_ohlcv(ticker="KRW-BTC",interval="minute15",count=10)
                 old_price=old_price['close'].iloc[::-1]
                 old_price=old_price[1]
+                
+                print("coin:", coin)
+                print("old_price:", old_price)
+                print("current_price:", current_price)
                 
                 #모든 코인구매칸이 다찼는지 확인
                 for i in range(0, coin_buy_index):
