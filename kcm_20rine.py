@@ -127,7 +127,7 @@ while True:
                 ma20 = goldencross(coin)
                 current_price = get_current_price(coin)
 
-                old_price = pyupbit.get_ohlcv(ticker="KRW-BTC",interval="minute15",count=10)
+                old_price = pyupbit.get_ohlcv(ticker=coin,interval="minute15",count=10)
                 old_price=old_price['close'].iloc[::-1]
                 old_price=old_price[1]
                 
@@ -165,7 +165,7 @@ while True:
                         ma20 = goldencross(coin)
                         current_price = get_current_price(coin)
 
-                        old_price = pyupbit.get_ohlcv(ticker="KRW-BTC",interval="minute15",count=10)
+                        old_price = pyupbit.get_ohlcv(ticker=coin,interval="minute15",count=10)
                         old_price=old_price['close'].iloc[::-1]
                         old_price=old_price[1]
                     
@@ -198,7 +198,7 @@ while True:
                         ma20 = goldencross(coin)
                         current_price = get_current_price(coin)
 
-                        old_price = pyupbit.get_ohlcv(ticker="KRW-BTC",interval="minute15",count=10)
+                        old_price = pyupbit.get_ohlcv(ticker=coin,interval="minute15",count=10)
                         old_price=old_price['close'].iloc[::-1]
                         old_price=old_price[1]
                     
