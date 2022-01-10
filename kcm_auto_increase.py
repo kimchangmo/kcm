@@ -165,8 +165,8 @@ while True:
             start_time = get_start_time(coin)
             end_time = start_time + datetime.timedelta(days=1)
 
-            if True:
-            #if start_time < now < end_time - datetime.timedelta(hours=1):
+            #if True:
+            if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 #print("ing... :")
                 print("coin:", coin)
                 #target_price = get_target_price(coin, 0.5)
