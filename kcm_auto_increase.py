@@ -143,7 +143,7 @@ all_coin.remove('KRW-BTC')
 #old_plus_buy_2 = 0
 
 #총 몇개 돌릴건지 설정
-coin_buy_index = 6
+coin_buy_index = 5
 #분봉 +1
 delay_time = 16
 
