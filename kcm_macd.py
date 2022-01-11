@@ -178,7 +178,7 @@ while True:
                 #헌재가 0터치
                 #if (macd2[1] < 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #골든크로스
-                if (macd2[2] < macd[2]) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (macd2[2] < macd[2]) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (macd2[0] < 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = buy_money
