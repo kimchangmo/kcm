@@ -135,7 +135,7 @@ while True:
             print("BTC red_rine:",macd2[0]) # 현재 빨강선
             
             #if True:
-            if start_time + datetime.timedelta(minutes=10) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > macd[0]):
+            #if start_time + datetime.timedelta(minutes=10) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > macd[0]):
             if start_time + datetime.timedelta(minutes=10) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > 0):
             #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 url = "https://api.upbit.com/v1/candles/minutes/15"
