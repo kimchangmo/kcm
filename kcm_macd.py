@@ -136,8 +136,6 @@ while True:
             
             #if True:
             if start_time + datetime.timedelta(minutes=10) < now < end_time - datetime.timedelta(hours=1) and (macd2[0] > macd[0]):
-            #if (macd2[0] > macd[0]):
-            #if (macd2[0] > 0):
             #if start_time + datetime.timedelta(minutes=30) < now < end_time - datetime.timedelta(hours=1):
                 url = "https://api.upbit.com/v1/candles/minutes/15"
                 querystring = {"market":coin,"count":"500"}
@@ -178,7 +176,7 @@ while True:
                 #헌재가 0터치
                 #if (macd2[1] < 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #골든크로스
-                if (macd2[2] < macd[2]) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (macd2[0] < 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (macd2[2] < macd[2]) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = buy_money
@@ -206,7 +204,7 @@ while True:
                         macd = MACD(df['trade_price'])
                     
                     #익절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.01) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
