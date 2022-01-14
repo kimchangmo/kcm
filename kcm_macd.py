@@ -205,7 +205,7 @@ while True:
                         macd = MACD(df['trade_price'])
                     
                     #익절판매
-                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.02) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
+                    if (globals()['count_{}'.format(i)] == 'false') and ((globals()['water_buy_price_{}'.format(i)] * 1.005) < (get_current_price(globals()['buycoin_{}'.format(i)]))) :
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
                         globals()['count_{}'.format(i)] = 'true'
@@ -217,10 +217,10 @@ while True:
                         
                     #판매(데드크로스 + delay_time 이후)
                     #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and (globals()['buytime_{}'.format(i)] < now):
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
-                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
-                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
-                    #    globals()['count_{}'.format(i)] = 'true'
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
                         
                     #손절판매(0아래)
                     if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < 0) and (macd2[0] < 0):
@@ -257,10 +257,10 @@ while True:
                         
                     #판매(데드크로스 + delay_time 이후)
                     #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and (globals()['buytime_{}'.format(i)] < now):
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
-                    #    globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
-                    #    upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
-                    #    globals()['count_{}'.format(i)] = 'true'
+                    if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
+                        globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
+                        upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
+                        globals()['count_{}'.format(i)] = 'true'
                         
                     #손절판매(0아래)
                     if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < 0) and (macd2[0] < 0):
