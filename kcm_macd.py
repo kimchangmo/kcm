@@ -173,7 +173,7 @@ while True:
                 #이전가 0 터치시 매수
                 #if (macd2[2] < 0) and (macd2[1] > 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (current_price > 3000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #이전가 0 터치시 매수
-                if (macd2[2] < 0) and (macd2[1] > 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
+                if (macd2[1] < 0) and (macd2[0] > 0) and (macd2[1] > macd[1]) and (macd2[0] > macd[0]) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #헌재가 0터치
                 #if (macd2[1] < 0) and (macd2[0] > 0) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
                 #골든크로스
@@ -216,7 +216,6 @@ while True:
                     #    globals()['count_{}'.format(i)] = 'true'
                         
                     #판매(데드크로스 + delay_time 이후)
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and (globals()['buytime_{}'.format(i)] < now):
                     if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
@@ -256,7 +255,6 @@ while True:
                     #    globals()['count_{}'.format(i)] = 'true'
                         
                     #판매(데드크로스 + delay_time 이후)
-                    #if (globals()['count_{}'.format(i)] == 'false') and (macd2[0] < macd[0]) and (globals()['buytime_{}'.format(i)] < now):
                     if (globals()['count_{}'.format(i)] == 'false') and (macd2[1] < macd[1]) and (macd2[0] < macd[0]):
                         globals()['btc_{}'.format(i)] = upbit.get_balance(globals()['buycoin_{}'.format(i)][4:])
                         upbit.sell_market_order(globals()['buycoin_{}'.format(i)], globals()['btc_{}'.format(i)])
