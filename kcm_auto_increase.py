@@ -143,7 +143,7 @@ all_coin.remove('KRW-BTC')
 #old_plus_buy_2 = 0
 
 #총 몇개 돌릴건지 설정
-coin_buy_index = 3
+coin_buy_index = 6
 #분봉 +1
 delay_time = 17
 
@@ -205,7 +205,7 @@ while True:
                                 globals()['count_{}'.format(i)] = 'false'
                                 #구매시간
                                 globals()['buytime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(minutes=delay_time)
-                                globals()['overtime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(hours=1)
+                                globals()['overtime_{}'.format(i)] = datetime.datetime.now() + datetime.timedelta(hours=3)
                                 time.sleep(5)
                             break
                 
