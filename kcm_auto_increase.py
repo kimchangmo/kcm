@@ -190,7 +190,7 @@ while True:
                 #인공지능 적용 비교문
                 #이전,이이전 비교문
                 #if (30 > old_old_rsi) and (30 < oldrsi) and (predicted_close_price > open_price) and (acc_trade_price_24h > 100000000000) and (count_all == 'true') and (upbit.get_balance(coin[4:]) == 0):
-                if (30 > old_old_rsi) and (30 < oldrsi) and (count_all == 'true') and (current_price > 5) and (upbit.get_balance(coin[4:]) == 0):
+                if (30 > old_old_rsi) and (30 < oldrsi) and (count_all == 'true') and (current_price > 100) and (upbit.get_balance(coin[4:]) == 0):
                     for i in range(0, coin_buy_index):
                         if (globals()['count_{}'.format(i)] == 'true'):
                             globals()['buy_money_{}'.format(i)] = 100000
