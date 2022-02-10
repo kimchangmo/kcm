@@ -144,7 +144,7 @@ all_coin.remove('KRW-AAVE')
 #old_plus_buy_2 = 0
 
 #총 몇개 돌릴건지 설정
-coin_buy_index = 20
+coin_buy_index = 10
 #분봉 +1
 delay_time = 17
 #구매가
