@@ -92,6 +92,7 @@ binance = ccxt.binance(config={
 
 #선물잔고조회
 balance = binance.fetch_balance(params={"type": "future"})
+print('##################################Start############################################')
 print('선물잔고 :', balance['USDT'])
 
 #특정코인 현재가 조회
