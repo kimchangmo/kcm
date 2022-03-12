@@ -142,11 +142,11 @@ def rsi(symbol):
     
 all_coin = []
 
-all_coin.append('AAVEUSDT')
+all_coin.append('ETHUSDT')
 all_coin.append('LTCUSDT')
-all_coin.append('COMPUSDT')
-all_coin.append('DASHUSDT')
-all_coin.append('LUNAUSDT')
+all_coin.append('YFIIUSDT')
+all_coin.append('MKRUSDT')
+all_coin.append('BCHUSDT')
 
 #총 몇개 돌릴건지 설정
 coin_buy_index = 5
@@ -154,6 +154,7 @@ coin_buy_index = 5
 delay_time = 17
 #구매가
 buy_money = 0.24 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
+#buy_money = 0.1 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
 #배율
 all_leverage = 3
 
@@ -261,12 +262,14 @@ while True:
             
             #2퍼 익절(롱)
             if (globals()['count_buy_{}'.format(i)] == 'false') and ((float(globals()['water_buy_price_buy_{}'.format(i)]) * 1.02) < globals()['current_price_buy_{}'.format(i)]) :
+            #if (globals()['count_buy_{}'.format(i)] == 'false') :
                 client.futures_create_order(
                     symbol=globals()['coin_{}'.format(i)], side='SELL',
                     positionSide = 'LONG', type='MARKET', quantity=globals()['old_plus_buy_{}'.format(i)]
                 )
-
+                print('코인(롱) :', globals()['coin_{}'.format(i)])
                 print('익절(롱)')
+                print('익절가:', globals()['current_price_buy_{}'.format(i)])
                 print('')
                 
                 globals()['count_buy_{}'.format(i)] = 'true'
@@ -278,7 +281,9 @@ while True:
                     symbol=globals()['coin_{}'.format(i)], side='BUY',
                     positionSide = 'SHORT', type='MARKET', quantity=globals()['old_plus_sell_{}'.format(i)]
                 )
+                print('코인(롱) :', globals()['coin_{}'.format(i)])
                 print('익절(숏)')
+                print('익절가:', globals()['current_price_sell_{}'.format(i)])
                 print('')
                 
                 globals()['count_sell_{}'.format(i)] = 'true'
@@ -325,6 +330,7 @@ while True:
 
                     #총 매수량
                     globals()['water_buy_price_buy_{}'.format(i)] = float(globals()['all_purchase_volume_buy_{}'.format(i)])/float(globals()['old_plus_buy_{}'.format(i)])
+                    print('코인(롱) :', globals()['coin_{}'.format(i)])
                     print('old_old_rsi(롱)', old_old_rsi)
                     print('old_rsi(롱)', old_rsi)
                     print('물타기(롱)')
@@ -377,6 +383,7 @@ while True:
                     globals()['water_buy_price_buy_{}'.format(i)] = float(globals()['all_purchase_volume_buy_{}'.format(i)])/float(globals()['old_plus_buy_{}'.format(i)])
                     #print('old_old_rsi(롱)', old_old_rsi)
                     #print('old_rsi(롱)', old_rsi)
+                    print('코인(롱) :', globals()['coin_{}'.format(i)])
                     print('청산방지(롱)')
                     print('물탄평단(롱)', globals()['water_buy_price_buy_{}'.format(i)])
                     print('물탄익절가(롱)', float(globals()['water_buy_price_buy_{}'.format(i)])*1.02)
@@ -425,6 +432,7 @@ while True:
 
                     #총 매수량
                     globals()['water_buy_price_sell_{}'.format(i)] = float(globals()['all_purchase_volume_sell_{}'.format(i)])/float(globals()['old_plus_sell_{}'.format(i)])
+                    print('코인(롱) :', globals()['coin_{}'.format(i)])
                     print('old_old_rsi(숏)', old_old_rsi)
                     print('old_rsi(숏)', old_rsi)
                     print('물타기(숏)')
@@ -477,6 +485,7 @@ while True:
                     globals()['water_buy_price_sell_{}'.format(i)] = float(globals()['all_purchase_volume_sell_{}'.format(i)])/float(globals()['old_plus_sell_{}'.format(i)])
                     #print('old_old_rsi(숏)', old_old_rsi)
                     #print('old_rsi(숏)', old_rsi)
+                    print('코인(롱) :', globals()['coin_{}'.format(i)])
                     print('청산방지(숏)')
                     print('물탄평단(숏)', globals()['water_buy_price_sell_{}'.format(i)])
                     print('물탄익절가(숏)', float(globals()['water_buy_price_sell_{}'.format(i)])*0.98)
