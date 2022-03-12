@@ -13,14 +13,14 @@
 
 #-----------테스트코드--------------------------------------------------------------------------
 import ccxt 
-import pprint
+#import pprint
 import time
 import pandas as pd
 from datetime import datetime, timezone
 from binance.spot import Spot as Client
 from binance.client import Client as r_Client
 import datetime as dt
-import win32api
+#import win32api
 
 #키
 api_key = "Xe70g6uznpnBznhPBKPUBfY5pB52kvH0o7aqFiJsYN6ZxKtyxONAsMgNhI0JVOv6"
