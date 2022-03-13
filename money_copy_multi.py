@@ -153,8 +153,12 @@ coin_buy_index = 5
 #분봉 +1
 delay_time = 17
 #구매가
-buy_money = 0.24 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
-#buy_money = 0.1 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
+#buy_money = 0.24 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
+globals()['buy_money_{}'.format(0)] = 0.01 #ETHUSDT
+globals()['buy_money_{}'.format(1)] = 0.24 #LTCUSDT
+globals()['buy_money_{}'.format(2)] = 0.013 #YFIIUSDT
+globals()['buy_money_{}'.format(3)] = 0.014 #MKRUSDT
+globals()['buy_money_{}'.format(4)] = 0.082 #BCHUSDT
 #배율
 all_leverage = 3
 
@@ -184,7 +188,7 @@ while True:
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
                 
-                if (buy_money < balance['USDT']['free']) :
+                if (globals()['buy_money_{}'.format(i)] < balance['USDT']['free']) :
                     print('코인(롱) :', globals()['coin_{}'.format(i)])
                     #코인 현재가
                     client = r_Client(api_key=api_key, api_secret=secret)
@@ -199,15 +203,15 @@ while True:
 
                     #구매시간
                     globals()['buytime_buy_{}'.format(i)] = dt.datetime.now() + dt.timedelta(minutes=delay_time)
-                    globals()['buy_money_buy_{}'.format(i)] = buy_money
-                    globals()['old_plus_buy_{}'.format(i)] = buy_money
+                    globals()['buy_money_buy_{}'.format(i)] = globals()['buy_money_{}'.format(i)]
+                    globals()['old_plus_buy_{}'.format(i)] = globals()['buy_money_{}'.format(i)]
 
                     #레버리지 설정
                     client.futures_change_leverage(symbol = globals()['coin_{}'.format(i)], leverage = all_leverage)
                     #구매
                     client.futures_create_order(
                         symbol=globals()['coin_{}'.format(i)], side='BUY',
-                        positionSide = 'LONG', type='MARKET', quantity=buy_money
+                        positionSide = 'LONG', type='MARKET', quantity=globals()['buy_money_{}'.format(i)]
                     ) #0.05 = 5.34USDT
     
                     #print('구매(롱)')
@@ -218,7 +222,7 @@ while True:
             if (globals()['count_sell_{}'.format(i)] == 'true'):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
-                if (buy_money < balance['USDT']['free']) :
+                if (globals()['buy_money_{}'.format(i)] < balance['USDT']['free']) :
                     print('코인(숏) :', globals()['coin_{}'.format(i)])
                     #코인 현재가
                     client = r_Client(api_key=api_key, api_secret=secret)          
@@ -233,15 +237,15 @@ while True:
 
                     #구매시간
                     globals()['buytime_sell_{}'.format(i)] = dt.datetime.now() + dt.timedelta(minutes=delay_time)
-                    globals()['buy_money_sell_{}'.format(i)] = buy_money
-                    globals()['old_plus_sell_{}'.format(i)] =buy_money
+                    globals()['buy_money_sell_{}'.format(i)] = globals()['buy_money_{}'.format(i)]
+                    globals()['old_plus_sell_{}'.format(i)] =globals()['buy_money_{}'.format(i)]
 
                     #레버리지 설정
                     client.futures_change_leverage(symbol = globals()['coin_{}'.format(i)], leverage = all_leverage)
                     #구매
                     client.futures_create_order(
                         symbol=globals()['coin_{}'.format(i)], side='SELL',
-                        positionSide = 'SHORT', type='MARKET', quantity=buy_money
+                        positionSide = 'SHORT', type='MARKET', quantity=globals()['buy_money_{}'.format(i)]
                     )
 
                     #print('구매(숏)')
@@ -323,7 +327,7 @@ while True:
                         globals()['all_purchase_volume_buy_{}'.format(i)] = (float(globals()['water_buy_price_buy_{}'.format(i)]) * float(globals()['old_plus_buy_{}'.format(i)])) + (float(globals()['current_price_buy_{}'.format(i)]) * float(globals()['buy_money_buy_{}'.format(i)]))
                     
                     #총 비용 : globals()['old_plus_buy_{}'.format(i)]
-                    if globals()['old_buy_money_buy_{}'.format(i)] == buy_money :
+                    if globals()['old_buy_money_buy_{}'.format(i)] == globals()['buy_money_{}'.format(i)] :
                         globals()['old_plus_buy_{}'.format(i)] = globals()['old_buy_money_buy_{}'.format(i)] + globals()['buy_money_buy_{}'.format(i)]
                     else :
                         globals()['old_plus_buy_{}'.format(i)] = globals()['old_plus_buy_{}'.format(i)] + globals()['buy_money_buy_{}'.format(i)]
@@ -374,7 +378,7 @@ while True:
                         globals()['all_purchase_volume_buy_{}'.format(i)] = (float(globals()['water_buy_price_buy_{}'.format(i)]) * float(globals()['old_plus_buy_{}'.format(i)])) + (float(globals()['current_price_buy_{}'.format(i)]) * float(globals()['buy_money_buy_{}'.format(i)]))
                     
                     #총 비용 : globals()['old_plus_buy_{}'.format(i)]
-                    if globals()['old_buy_money_buy_{}'.format(i)] == buy_money :
+                    if globals()['old_buy_money_buy_{}'.format(i)] == globals()['buy_money_{}'.format(i)] :
                         globals()['old_plus_buy_{}'.format(i)] = globals()['old_buy_money_buy_{}'.format(i)] + globals()['buy_money_buy_{}'.format(i)]
                     else :
                         globals()['old_plus_buy_{}'.format(i)] = globals()['old_plus_buy_{}'.format(i)] + globals()['buy_money_buy_{}'.format(i)]
@@ -425,7 +429,7 @@ while True:
                         globals()['all_purchase_volume_sell_{}'.format(i)] = (float(globals()['water_buy_price_sell_{}'.format(i)]) * float(globals()['old_plus_sell_{}'.format(i)])) + (float(globals()['current_price_sell_{}'.format(i)]) * float(globals()['buy_money_sell_{}'.format(i)]))
                     
                     #총 비용 : globals()['old_plus_sell_{}'.format(i)]
-                    if globals()['old_buy_money_sell_{}'.format(i)] == buy_money :
+                    if globals()['old_buy_money_sell_{}'.format(i)] == globals()['buy_money_{}'.format(i)] :
                         globals()['old_plus_sell_{}'.format(i)] = globals()['old_buy_money_sell_{}'.format(i)] + globals()['buy_money_sell_{}'.format(i)]
                     else :
                         globals()['old_plus_sell_{}'.format(i)] = globals()['old_plus_sell_{}'.format(i)] + globals()['buy_money_sell_{}'.format(i)]
@@ -476,7 +480,7 @@ while True:
                         globals()['all_purchase_volume_sell_{}'.format(i)] = (float(globals()['water_buy_price_sell_{}'.format(i)]) * float(globals()['old_plus_sell_{}'.format(i)])) + (float(globals()['current_price_sell_{}'.format(i)]) * float(globals()['buy_money_sell_{}'.format(i)]))
                     
                     #총 비용 : globals()['old_plus_sell_{}'.format(i)]
-                    if globals()['old_buy_money_sell_{}'.format(i)] == buy_money :
+                    if globals()['old_buy_money_sell_{}'.format(i)] == globals()['buy_money_{}'.format(i)] :
                         globals()['old_plus_sell_{}'.format(i)] = globals()['old_buy_money_sell_{}'.format(i)] + globals()['buy_money_sell_{}'.format(i)]
                     else :
                         globals()['old_plus_sell_{}'.format(i)] = globals()['old_plus_sell_{}'.format(i)] + globals()['buy_money_sell_{}'.format(i)]
