@@ -153,14 +153,20 @@ coin_buy_index = 5
 #분봉 +1
 delay_time = 17
 #구매가
-#buy_money = 0.24 #레버리지 3배면 넣고싶은 금액의 3배 넣어야함
-globals()['buy_money_{}'.format(0)] = 0.01 #ETHUSDT
-globals()['buy_money_{}'.format(1)] = 0.24 #LTCUSDT
-globals()['buy_money_{}'.format(2)] = 0.013 #YFIIUSDT
-globals()['buy_money_{}'.format(3)] = 0.014 #MKRUSDT
-globals()['buy_money_{}'.format(4)] = 0.082 #BCHUSDT
+#####1만원 시작######
+#globals()['buy_money_{}'.format(0)] = 0.01 #ETHUSDT
+#globals()['buy_money_{}'.format(1)] = 0.24 #LTCUSDT
+#globals()['buy_money_{}'.format(2)] = 0.013 #YFIIUSDT
+#globals()['buy_money_{}'.format(3)] = 0.014 #MKRUSDT
+#globals()['buy_money_{}'.format(4)] = 0.082 #BCHUSDT
+#####2만원 시작######
+globals()['buy_money_{}'.format(0)] = 0.02 #ETHUSDT
+globals()['buy_money_{}'.format(1)] = 0.48 #LTCUSDT
+globals()['buy_money_{}'.format(2)] = 0.026 #YFIIUSDT
+globals()['buy_money_{}'.format(3)] = 0.028 #MKRUSDT
+globals()['buy_money_{}'.format(4)] = 0.164 #BCHUSDT
 #배율
-all_leverage = 3
+all_leverage = 4
 
 #coin_one_buy = 'true'
 #coin_one_sell = 'true'
@@ -184,7 +190,7 @@ while True:
             now = dt.datetime.now()
 
             #코인 롱 구매
-            if (globals()['count_buy_{}'.format(i)] == 'true'):
+            if (globals()['count_buy_{}'.format(i)] == 'true') and (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
                 
@@ -219,7 +225,7 @@ while True:
                     time.sleep(1)    
 
             #코인 숏 구매
-            if (globals()['count_sell_{}'.format(i)] == 'true'):
+            if (globals()['count_sell_{}'.format(i)] == 'true') and (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
                 if (globals()['buy_money_{}'.format(i)] < balance['USDT']['free']) :
@@ -345,7 +351,7 @@ while True:
                     time.sleep(1)    
 
             #배율에따른 청산방지(롱)
-            if (globals()['count_buy_{}'.format(i)] == 'false') and ((float(globals()['water_buy_price_buy_{}'.format(i)]) * 0.72) > globals()['current_price_buy_{}'.format(i)]):
+            if (globals()['count_buy_{}'.format(i)] == 'false') and ((float(globals()['water_buy_price_buy_{}'.format(i)]) * 0.80) > globals()['current_price_buy_{}'.format(i)]):
             #if (globals()['count_buy_{}'.format(i)] == 'false'):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
@@ -447,7 +453,7 @@ while True:
                     time.sleep(1)    
 
             #배율에따른 청산방지(숏)
-            if (globals()['count_sell_{}'.format(i)] == 'false') and ((float(globals()['water_buy_price_sell_{}'.format(i)]) * 1.28) < globals()['current_price_sell_{}'.format(i)]):
+            if (globals()['count_sell_{}'.format(i)] == 'false') and ((float(globals()['water_buy_price_sell_{}'.format(i)]) * 1.20) < globals()['current_price_sell_{}'.format(i)]):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
                 #balance = binance.fetch_balance()
