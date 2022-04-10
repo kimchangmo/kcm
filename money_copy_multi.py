@@ -191,6 +191,25 @@ while True:
 
             now = dt.datetime.now()
 
+            #선물잔고조회
+            balance = binance.fetch_balance(params={"type": "future"})
+            #balance = binance.fetch_balance()
+            positions = balance['info']['positions']
+
+            #수동판매 대응
+            for position in positions:
+                if (position["symbol"] == globals()['coin_{}'.format(i)]) and (float(position["initialMargin"]) > 0) and (position["positionSide"] == "LONG") :
+                    print(globals()['coin_{}'.format(i)], ": Live Long")
+                if (position["symbol"] == globals()['coin_{}'.format(i)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "LONG") :
+                    print(globals()['coin_{}'.format(i)], ": Ded Long")
+                    globals()['count_buy_{}'.format(i)] = 'true'
+                if (position["symbol"] == globals()['coin_{}'.format(i)]) and (float(position["initialMargin"]) > 0) and (position["positionSide"] == "SHORT") :
+                    print(globals()['coin_{}'.format(i)], ": Live Short")
+                if (position["symbol"] == globals()['coin_{}'.format(i)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "SHORT") :
+                    print(globals()['coin_{}'.format(i)], ": Ded Short")
+                    globals()['count_sell_{}'.format(i)] = 'true'
+
+            """
             #코인 롱 구매
             if (globals()['count_buy_{}'.format(i)] == 'true') and (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi):
             #if (globals()['count_buy_{}'.format(i)] == 'true'):
@@ -514,9 +533,9 @@ while True:
                     print('')
 
                     time.sleep(1)    
-            
-            i = i+1
+            """
             time.sleep(2)
         except Exception as e:
             print(e)
             time.sleep(1)
+        i = i+1
