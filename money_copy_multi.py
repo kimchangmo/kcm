@@ -2,25 +2,22 @@
 #비밀 키 : RMgRWgyHizGLqdF7P2wf8LeajnewCHMjMLLrDR5nL2651324ulQ0DotI6l5RqMJV
 
 #참고 : 
-#pip install ccxt @@@
-#pip install binance-connector @@@
-#pip install --upgrade pip @@@
-#pip install python-binance @@@
-#pip install binance-futures @@@
-#시간설정 time.nist.gov 로 변경! @@@
-
+#pip install ccxt 
+#pip install binance-connector 
+#pip install --upgrade pip 
+#pip install python-binance 
+#pip install binance-futures 
+#시간설정 time.nist.gov 로 변경! 
 #시계 자동 동기화 적용 할것!!!
 
 #-----------테스트코드--------------------------------------------------------------------------
 import ccxt 
-#import pprint
 import time
 import pandas as pd
 from datetime import datetime, timezone
 from binance.spot import Spot as Client
 from binance.client import Client as r_Client
 import datetime as dt
-#import win32api
 
 #키
 api_key = "Xe70g6uznpnBznhPBKPUBfY5pB52kvH0o7aqFiJsYN6ZxKtyxONAsMgNhI0JVOv6"
@@ -75,7 +72,9 @@ for position in positions:
 #유의사항 : leverage * coin balance (레버리지 X 코인의 양)이 적어도 usdt기준 5.0(달러) 이상이어야 한다.
 #############################################################################
 
-#
+
+print('##################################Start############################################')
+
 binance = ccxt.binance(config={
     'apiKey': api_key, 
     'secret': secret,
@@ -85,19 +84,9 @@ binance = ccxt.binance(config={
     }
 })
 
-#선물코인조회
-#markets = binance.load_markets()
-#for m in markets:
-#    print(m)
-
 #선물잔고조회
 balance = binance.fetch_balance(params={"type": "future"})
-print('##################################Start############################################')
 print('선물잔고 :', balance['USDT'])
-
-#특정코인 현재가 조회
-#btc = binance.fetch_ticker("BTC/USDT")
-#print(btc)
 
 def rsi(symbol):
     #특정코인 과거데이터 조회
@@ -141,50 +130,31 @@ def rsi(symbol):
     return pd.Series(100 - (100/(1 + RS)), name = "RSI")
     
 all_coin = []
-
 all_coin.append('ETHUSDT')
 all_coin.append('LTCUSDT')
 all_coin.append('YFIIUSDT')
 all_coin.append('MKRUSDT')
 all_coin.append('BCHUSDT')
 
-#총 몇개 돌릴건지 설정
+#롱 and 숏 몇개 돌릴건지 설정
 coin_buy_index = 5
-#분봉 +1
+#분봉 +2
 delay_time = 17
-#구매가
-#####1만원 시작######
-#globals()['buy_money_{}'.format(0)] = 0.01 #ETHUSDT
-#globals()['buy_money_{}'.format(1)] = 0.24 #LTCUSDT
-#globals()['buy_money_{}'.format(2)] = 0.013 #YFIIUSDT
-#globals()['buy_money_{}'.format(3)] = 0.014 #MKRUSDT
-#globals()['buy_money_{}'.format(4)] = 0.082 #BCHUSDT
-#####2만원 시작######
-#globals()['buy_money_{}'.format(0)] = 0.02 #ETHUSDT
-#globals()['buy_money_{}'.format(1)] = 0.48 #LTCUSDT
-#globals()['buy_money_{}'.format(2)] = 0.026 #YFIIUSDT
-#globals()['buy_money_{}'.format(3)] = 0.028 #MKRUSDT
-#globals()['buy_money_{}'.format(4)] = 0.164 #BCHUSDT
 #첫구매가(달러)
 first_buy_money = 16
 #배율
 all_leverage = 4
-
-#coin_one_buy = 'true'
-#coin_one_sell = 'true'
 
 for i in range(0, coin_buy_index):
     #코인별 롱/숏 보유상태
     globals()['count_buy_{}'.format(i)] = 'true'
     globals()['count_sell_{}'.format(i)] = 'true'
     globals()['coin_{}'.format(i)] = all_coin[i]
-    #globals()['old_plus_buy_{}'.format(i)] = 0
 
 while True:
     i = 0
     while i < len(all_coin) : #총 코인 갯수
         try:
-            #coin = all_coin[n]
             now_rsi = float(rsi(globals()['coin_{}'.format(i)]).iloc[-1])
             old_rsi = float(rsi(globals()['coin_{}'.format(i)]).iloc[-2])
             old_old_rsi = float(rsi(globals()['coin_{}'.format(i)]).iloc[-3])
@@ -193,7 +163,6 @@ while True:
 
             #선물잔고조회
             balance = binance.fetch_balance(params={"type": "future"})
-            #balance = binance.fetch_balance()
             positions = balance['info']['positions']
 
             #수동판매 대응
@@ -208,10 +177,24 @@ while True:
                 if (position["symbol"] == globals()['coin_{}'.format(i)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "SHORT") :
                     print(globals()['coin_{}'.format(i)], ": Ded Short")
                     globals()['count_sell_{}'.format(i)] = 'true'
+                    
+            #모든 코인구매칸이 다찼는지 확인
+            for i in range(0, coin_buy_index):
+                if (globals()['count_buy_{}'.format(i)] == 'false'):
+                    count_all_buy = 'false'
+                else:
+                    count_all_buy = 'true'
+                    break
+            for i in range(0, coin_buy_index):
+                if (globals()['count_sell_{}'.format(i)] == 'false'):
+                    count_all_sell = 'false'
+                else:
+                    count_all_sell = 'true'
+                    break
 
             """
             #코인 롱 구매
-            if (globals()['count_buy_{}'.format(i)] == 'true') and (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi):
+            if (globals()['count_buy_{}'.format(i)] == 'true') and (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (count_all_buy == 'true'):
             #if (globals()['count_buy_{}'.format(i)] == 'true'):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
@@ -251,7 +234,7 @@ while True:
                     time.sleep(1)    
 
             #코인 숏 구매
-            if (globals()['count_sell_{}'.format(i)] == 'true') and (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi):
+            if (globals()['count_sell_{}'.format(i)] == 'true') and (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi) and (count_all_sell == 'true'):
                 #선물잔고조회
                 balance = binance.fetch_balance(params={"type": "future"})
                 #구매수량 계산 - 구매가*배율/코인가격
