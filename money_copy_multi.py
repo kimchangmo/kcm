@@ -128,6 +128,11 @@ def rsi(symbol):
     RS = au/ad 
 
     return pd.Series(100 - (100/(1 + RS)), name = "RSI")
+ 
+#코인목록???
+#markets = binance.load_markets()
+#for m in markets:
+#    print(m)
     
 all_coin = []
 all_coin.append('ETHUSDT')
