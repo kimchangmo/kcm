@@ -180,6 +180,7 @@ while True:
             all_coin.append(new_m)
     all_coin.remove('BTCUSDT_220624')
     all_coin.remove('ETHUSDT_220624')
+    all_coin.remove('BTCUSDT')
 
     while i < len(all_coin) : #총 코인 갯수
         try:
@@ -316,10 +317,6 @@ while True:
                 balance = binance.fetch_balance(params={"type": "future"})
                 positions = balance['info']['positions']
                 for position in positions:
-                    #if (position["symbol"] == coin) and (float(position["initialMargin"]) > 0) and (position["positionSide"] == "LONG") :
-                    #    print(coin, ": Live Long")
-                    #if (position["symbol"] == coin) and (float(position["initialMargin"]) > 0) and (position["positionSide"] == "SHORT") :
-                    #    print(coin, ": Live Short")
                     if (globals()['count_buy_{}'.format(n)] == 'false') and (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "LONG") :
                         #print(globals()['buycoin_buy_{}'.format(n)], ": Ded Long")
                         globals()['count_buy_{}'.format(n)] = 'true'
