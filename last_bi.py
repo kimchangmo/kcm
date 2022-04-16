@@ -236,8 +236,8 @@ while True:
                         #구매수량 계산 - 구매가*배율/코인가격
                         client = r_Client(api_key=api_key, api_secret=secret)
                         globals()['buy_money_{}'.format(n)] = first_buy_money*all_leverage/float(client.futures_symbol_ticker(symbol=coin)['price'])
-                        #소수점3째자리로 자르기
-                        globals()['buy_money_{}'.format(n)] = round(globals()['buy_money_{}'.format(n)],3)
+                        #소수점2째자리로 자르기 >> 3번째로 자르니까 못사는 코인이 
+                        globals()['buy_money_{}'.format(n)] = round(globals()['buy_money_{}'.format(n)],2)
                         
                         if (first_buy_money < balance['USDT']['free']):
                             client = r_Client(api_key=api_key, api_secret=secret)
