@@ -185,7 +185,7 @@ while True:
     while i < len(all_coin) : #총 코인 갯수
         try:
             coin = all_coin[i]
-            #print(coin)
+            print(coin)
             now_rsi = float(rsi(coin).iloc[-1])
             old_rsi = float(rsi(coin).iloc[-2])
             old_old_rsi = float(rsi(coin).iloc[-3])
@@ -211,6 +211,8 @@ while True:
                 else:
                     count_all_sell = 'true'
                     break
+            print('count_all_buy : ', count_all_buy)
+            print('count_all_sell : ', count_all_sell)
 
             #코인 롱 구매
             if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (count_all_buy == 'true'):
