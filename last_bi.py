@@ -215,8 +215,8 @@ while True:
             print('count_all_sell : ', count_all_sell)
 
             #코인 롱 구매
-            if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (count_all_buy == 'true'):
-            #if (count_all_buy == 'true'):
+            #if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (count_all_buy == 'true'):
+            if (count_all_buy == 'true'):
                 for n in range(0, coin_buy_index):
                     #보유여부확인
                     positions = balance['info']['positions']
@@ -248,7 +248,7 @@ while True:
                                 symbol=coin, side='BUY',
                                 positionSide = 'LONG', type='MARKET', quantity=globals()['buy_money_{}'.format(n)]
                             )
-
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == coin):
@@ -303,7 +303,7 @@ while True:
                                 symbol=coin, side='SELL',
                                 positionSide = 'SHORT', type='MARKET', quantity=globals()['buy_money_{}'.format(n)]
                             )
-
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == coin):
@@ -398,6 +398,7 @@ while True:
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]):
@@ -451,12 +452,14 @@ while True:
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
+
                             globals()['water_buy_price_buy_{}'.format(n)] = float(entry)
                             print('time :', now)
                             print('watercoin(long) :', globals()['buycoin_buy_{}'.format(n)])
@@ -519,7 +522,7 @@ while True:
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
-                            
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]):
@@ -573,7 +576,7 @@ while True:
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
-                            
+                            balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]):
