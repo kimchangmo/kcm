@@ -361,7 +361,7 @@ while True:
                         time.sleep(1)    
                         
                     #물타기(롱)
-                    if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (now > globals()['buytime_buy_{}'.format(n)]) and ((float(globals()['last_current_price_buy_{}'.format(n)]) * 0.95) > globals()['current_price_buy_{}'.format(n)]):
+                    if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (now > globals()['buytime_buy_{}'.format(n)]) and ((float(globals()['last_current_price_buy_{}'.format(n)]) * 0.93) > globals()['current_price_buy_{}'.format(n)]):
                         #선물잔고조회
                         balance = binance.fetch_balance(params={"type": "future"})
                         
@@ -482,7 +482,7 @@ while True:
                         time.sleep(1)    
 
                     #물타기(숏)
-                    if (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi) and (now > globals()['buytime_sell_{}'.format(n)]) and ((float(globals()['last_current_price_sell_{}'.format(n)]) * 1.05) < globals()['current_price_sell_{}'.format(n)]):
+                    if (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi) and (now > globals()['buytime_sell_{}'.format(n)]) and ((float(globals()['last_current_price_sell_{}'.format(n)]) * 1.07) < globals()['current_price_sell_{}'.format(n)]):
                         #선물잔고조회
                         balance = binance.fetch_balance(params={"type": "future"})
                         
