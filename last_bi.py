@@ -251,7 +251,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == coin):
+                                if (position["symbol"] == coin) and (position["positionSide"] == "LONG"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
@@ -306,7 +306,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == coin):
+                                if (position["symbol"] == coin) and (position["positionSide"] == "SHORT"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
@@ -401,7 +401,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]):
+                                if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (position["positionSide"] == "LONG"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
@@ -455,7 +455,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]):
+                                if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (position["positionSide"] == "LONG"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
@@ -525,7 +525,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]):
+                                if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (position["positionSide"] == "SHORT"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
@@ -579,7 +579,7 @@ while True:
                             balance = binance.fetch_balance(params={"type": "future"})
                             positions = balance['info']['positions']
                             for position in positions:
-                                if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]):
+                                if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (position["positionSide"] == "SHORT"):
                                     print('entry',position['entryPrice'])
                                     entry = position['entryPrice']
                                     break
