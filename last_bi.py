@@ -354,10 +354,21 @@ while True:
                             symbol=globals()['buycoin_buy_{}'.format(n)], side='SELL',
                             positionSide = 'LONG', type='MARKET', quantity=globals()['old_plus_buy_{}'.format(n)]
                         )
-                        print('time :', now)
-                        print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
-                        print('')
-                        globals()['count_buy_{}'.format(n)] = 'true'
+
+                        balance = binance.fetch_balance(params={"type": "future"})
+                        positions = balance['info']['positions']
+                        for position in positions:
+                            if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "LONG"):
+                                fail_sell_coin = 'true'
+                                break
+                            else :
+                                fail_sell_coin = 'false'
+
+                        if (fail_sell_coin == 'true'):
+                            print('time :', now)
+                            print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
+                            print('')
+                            globals()['count_buy_{}'.format(n)] = 'true'
                         time.sleep(1)    
                         
                     #물타기(롱)
@@ -478,10 +489,21 @@ while True:
                             symbol=globals()['buycoin_sell_{}'.format(n)], side='BUY',
                             positionSide = 'SHORT', type='MARKET', quantity=globals()['old_plus_sell_{}'.format(n)]
                         )
-                        print('time :', now)
-                        print('sellcoin(short) :', globals()['buycoin_sell_{}'.format(n)])
-                        print('')
-                        globals()['count_sell_{}'.format(n)] = 'true'
+
+                        balance = binance.fetch_balance(params={"type": "future"})
+                        positions = balance['info']['positions']
+                        for position in positions:
+                            if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "SHORT"):
+                                fail_sell_coin = 'true'
+                                break
+                            else :
+                                fail_sell_coin = 'false'
+
+                        if (fail_sell_coin == 'true'):
+                            print('time :', now)
+                            print('sellcoin(short) :', globals()['buycoin_sell_{}'.format(n)])
+                            print('')
+                            globals()['count_sell_{}'.format(n)] = 'true'
                         time.sleep(1)    
 
                     #물타기(숏)
