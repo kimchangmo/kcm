@@ -354,21 +354,10 @@ while True:
                             symbol=globals()['buycoin_buy_{}'.format(n)], side='SELL',
                             positionSide = 'LONG', type='MARKET', quantity=globals()['old_plus_buy_{}'.format(n)]
                         )
-
-                        balance = binance.fetch_balance(params={"type": "future"})
-                        positions = balance['info']['positions']
-                        for position in positions:
-                            if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "LONG"):
-                                fail_sell_coin = 'true'
-                                break
-                            else :
-                                fail_sell_coin = 'false'
-
-                        if (fail_sell_coin == 'true'):
-                            print('time :', now)
-                            print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
-                            print('')
-                            globals()['count_buy_{}'.format(n)] = 'true'
+                        print('time :', now)
+                        print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
+                        print('')
+                        globals()['count_buy_{}'.format(n)] = 'true'
                         time.sleep(1)    
                         
                     #물타기(롱)
@@ -402,10 +391,10 @@ while True:
                             #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_plus_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
                             
                             #총 비용 : globals()['old_plus_buy_{}'.format(n)]
-                            #if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
+                            if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
+                                globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
+                            else :
+                                globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
@@ -456,10 +445,10 @@ while True:
                             #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_plus_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
                             
                             #총 비용 : globals()['old_plus_buy_{}'.format(n)]
-                            #if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
+                            if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
+                                globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
+                            else :
+                                globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
@@ -489,21 +478,10 @@ while True:
                             symbol=globals()['buycoin_sell_{}'.format(n)], side='BUY',
                             positionSide = 'SHORT', type='MARKET', quantity=globals()['old_plus_sell_{}'.format(n)]
                         )
-
-                        balance = binance.fetch_balance(params={"type": "future"})
-                        positions = balance['info']['positions']
-                        for position in positions:
-                            if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (float(position["initialMargin"]) == 0) and (position["positionSide"] == "SHORT"):
-                                fail_sell_coin = 'true'
-                                break
-                            else :
-                                fail_sell_coin = 'false'
-
-                        if (fail_sell_coin == 'true'):
-                            print('time :', now)
-                            print('sellcoin(short) :', globals()['buycoin_sell_{}'.format(n)])
-                            print('')
-                            globals()['count_sell_{}'.format(n)] = 'true'
+                        print('time :', now)
+                        print('sellcoin(short) :', globals()['buycoin_sell_{}'.format(n)])
+                        print('')
+                        globals()['count_sell_{}'.format(n)] = 'true'
                         time.sleep(1)    
 
                     #물타기(숏)
@@ -537,10 +515,10 @@ while True:
                             #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_plus_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
                             
                             #총 비용 : globals()['old_plus_sell_{}'.format(n)]
-                            #if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
+                            if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
+                                globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
+                            else :
+                                globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
@@ -591,10 +569,10 @@ while True:
                             #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_plus_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
                             
                             #총 비용 : globals()['old_plus_sell_{}'.format(n)]
-                            #if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
+                            if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
+                                globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
+                            else :
+                                globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
