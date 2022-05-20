@@ -359,6 +359,10 @@ while True:
                         print('')
                         globals()['count_buy_{}'.format(n)] = 'true'
                         time.sleep(1)    
+
+                    now_rsi = float(rsi(globals()['buycoin_buy_{}'.format(n)]).iloc[-1])
+                    old_rsi = float(rsi(globals()['buycoin_buy_{}'.format(n)]).iloc[-2])
+                    old_old_rsi = float(rsi(globals()['buycoin_buy_{}'.format(n)]).iloc[-3])
                         
                     #물타기(롱)
                     if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (now > globals()['buytime_buy_{}'.format(n)]) and ((float(globals()['last_current_price_buy_{}'.format(n)]) * 0.93) > globals()['current_price_buy_{}'.format(n)]):
@@ -487,6 +491,10 @@ while True:
                         print('')
                         globals()['count_sell_{}'.format(n)] = 'true'
                         time.sleep(1)    
+
+                    now_rsi = float(rsi(globals()['buycoin_sell_{}'.format(n)]).iloc[-1])
+                    old_rsi = float(rsi(globals()['buycoin_sell_{}'.format(n)]).iloc[-2])
+                    old_old_rsi = float(rsi(globals()['buycoin_sell_{}'.format(n)]).iloc[-3])
 
                     #물타기(숏)
                     if (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi) and (now > globals()['buytime_sell_{}'.format(n)]) and ((float(globals()['last_current_price_sell_{}'.format(n)]) * 1.07) < globals()['current_price_sell_{}'.format(n)]):
