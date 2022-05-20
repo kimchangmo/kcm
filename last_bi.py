@@ -185,7 +185,7 @@ while True:
     while i < len(all_coin) : #총 코인 갯수
         try:
             coin = all_coin[i]
-            print(coin)
+            #print(coin)
             now_rsi = float(rsi(coin).iloc[-1])
             old_rsi = float(rsi(coin).iloc[-2])
             old_old_rsi = float(rsi(coin).iloc[-3])
@@ -211,8 +211,8 @@ while True:
                 else:
                     count_all_sell = 'true'
                     break
-            print('count_all_buy : ', count_all_buy)
-            print('count_all_sell : ', count_all_sell)
+            #print('count_all_buy : ', count_all_buy)
+            #print('count_all_sell : ', count_all_sell)
 
             #코인 롱 구매
             if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (count_all_buy == 'true'):
@@ -271,7 +271,7 @@ while True:
                             print('time :', now)
                             print('buycoin(long) :', coin)
                             print('n : ', n)
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(2)    
                             break
 
@@ -325,7 +325,7 @@ while True:
                             globals()['count_sell_{}'.format(n)] = 'false'
                             print('time :', now)
                             print('buycoin(short) :', coin)
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(2)    
                             break
 
@@ -356,7 +356,7 @@ while True:
                         )
                         print('time :', now)
                         print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
-                        print('')
+                        print('----------------------------------------------------')
                         globals()['count_buy_{}'.format(n)] = 'true'
                         time.sleep(1)    
 
@@ -407,6 +407,7 @@ while True:
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (position["positionSide"] == "LONG"):
                                     print('entry',position['entryPrice'])
+                                    print('positionAmt',position['positionAmt'])
                                     entry = position['entryPrice']
                                     positionAmt = position['positionAmt']
                                     break
@@ -417,7 +418,7 @@ while True:
                             print('watercoin(long) :', globals()['buycoin_buy_{}'.format(n)])
                             print('old_old_rsi(long)', old_old_rsi)
                             print('old_rsi(long)', old_rsi)
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(1)    
                             
                     #배율에따른 청산방지(롱)
@@ -463,6 +464,7 @@ while True:
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_buy_{}'.format(n)]) and (position["positionSide"] == "LONG"):
                                     print('entry',position['entryPrice'])
+                                    print('positionAmt',position['positionAmt'])
                                     entry = position['entryPrice']
                                     positionAmt = position['positionAmt']
                                     break
@@ -471,7 +473,7 @@ while True:
                             globals()['old_plus_buy_{}'.format(n)] = float(positionAmt)
                             print('time :', now)
                             print('watercoin(long) :', globals()['buycoin_buy_{}'.format(n)])
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(1) 
                 
                 if (globals()['count_sell_{}'.format(n)] == 'false'):
@@ -539,6 +541,7 @@ while True:
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (position["positionSide"] == "SHORT"):
                                     print('entry',position['entryPrice'])
+                                    print('positionAmt',position['positionAmt'])
                                     entry = position['entryPrice']
                                     positionAmt = position['positionAmt']
                                     break
@@ -549,7 +552,7 @@ while True:
                             print('watercoin(short) :', globals()['buycoin_sell_{}'.format(n)])
                             print('old_old_rsi(short)', old_old_rsi)
                             print('old_rsi(short)', old_rsi)
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(1)    
 
                     #배율에따른 청산방지(숏)
@@ -595,6 +598,7 @@ while True:
                             for position in positions:
                                 if (position["symbol"] == globals()['buycoin_sell_{}'.format(n)]) and (position["positionSide"] == "SHORT"):
                                     print('entry',position['entryPrice'])
+                                    print('positionAmt',position['positionAmt'])
                                     entry = position['entryPrice']
                                     positionAmt = position['positionAmt']
                                     break
@@ -603,7 +607,7 @@ while True:
                             globals()['old_plus_sell_{}'.format(n)] = float(positionAmt)
                             print('time :', now)
                             print('watercoin(short) :', globals()['buycoin_sell_{}'.format(n)])
-                            print('')
+                            print('----------------------------------------------------')
                             time.sleep(1)    
                 time.sleep(2)
         except Exception as e:
