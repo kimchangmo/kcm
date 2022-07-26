@@ -7,6 +7,8 @@
 #pip install --upgrade pip 
 #pip install python-binance 
 #pip install binance-futures 
+
+#윈도우만 참고:
 #시간설정 time.nist.gov 로 변경! 
 #시계 자동 동기화 적용 할것!!!
 
@@ -22,56 +24,6 @@ import datetime as dt
 #키
 api_key = "Xe70g6uznpnBznhPBKPUBfY5pB52kvH0o7aqFiJsYN6ZxKtyxONAsMgNhI0JVOv6"
 secret  = "RMgRWgyHizGLqdF7P2wf8LeajnewCHMjMLLrDR5nL2651324ulQ0DotI6l5RqMJV"
-
-################################참고####################################
-"""
-# 최소 요청가능한 수량 (BTC 기준)
-# df_exchange_info : 최소 요청가능한 수량 (BTC 기준) DataFrame
-# 바이낸스에는 최소 거래량이 있어서 이 거래량보다 작은 양의 거래는 오류가 발생
-exchange_info = client.get_exchange_info()['symbols']
-df_exchange_info = pd.DataFrame.from_dict(exchange_info).set_index('symbol')
-# 요청량
-tickers = client.get_ticker()
-df_Tickers = pd.DataFrame(tickers).set_index('symbol').astype(float)
-length = df_exchange_info.loc[coin,['filters']]['filters'][0]['minPrice'].find('1') - 1
-price = round(df_Tickers.loc[coin,'bidPrice'] * 1.0003, length)
-stepSize = float(df_exchange_info.filters[coin][2]['stepSize'])
-print(stepSize)
-
-
-
-# 보유 포지션 조회
-import ccxt 
-import pprint
-
-
-with open("../api.txt") as f:
-    lines = f.readlines()
-    api_key = lines[0].strip()
-    secret  = lines[1].strip()
-
-binance = ccxt.binance(config={
-    'apiKey': api_key, 
-    'secret': secret,
-    'enableRateLimit': True,
-    'options': {
-        'defaultType': 'future'
-    }
-})
-
-balance = binance.fetch_balance()
-positions = balance['info']['positions']
-
-for position in positions:
-    if position["symbol"] == "BTCUSDT":
-        pprint.pprint(position)
-"""
-
-#이건머지?
-#console.info(await binance.futuresMultipleOrders(orders))
-#유의사항 : leverage * coin balance (레버리지 X 코인의 양)이 적어도 usdt기준 5.0(달러) 이상이어야 한다.
-#############################################################################
-
 
 print('##################################Start############################################')
 
@@ -90,18 +42,6 @@ print('선물잔고 :', balance['USDT'])
 
 def rsi(symbol):
     #특정코인 과거데이터 조회
-    """
-    btc = binance.fetch_ohlcv(
-        symbol=symbol, 
-        timeframe='1d', 
-        since=None, 
-        limit=10
-        )
-    df = pd.DataFrame(btc, columns=['datetime', 'open', 'high', 'low', 'close', 'volume'])
-    df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
-    df.set_index('datetime', inplace=True)
-    """
-
     client = Client(api_key, secret)
 
     klines = client.klines(symbol, '15m', limit=500)
@@ -138,16 +78,6 @@ for m in markets:
         new_m = m.replace('/','')
         #print(new_m)
         all_coin.append(new_m)
-    
-all_coin.remove('BTCUSDT_220624')
-all_coin.remove('ETHUSDT_220624')
-#all_coin.append('ETHUSDT')
-#all_coin.append('LTCUSDT')
-#all_coin.append('YFIIUSDT')
-#all_coin.append('MKRUSDT')
-#all_coin.append('BCHUSDT')
-#print('')
-#print(all_coin)
 
 #롱 and 숏 몇개 돌릴건지 설정
 coin_buy_index = 5
@@ -178,9 +108,6 @@ while True:
             new_m = m.replace('/','')
             #print(new_m)
             all_coin.append(new_m)
-    all_coin.remove('BTCUSDT_220624')
-    all_coin.remove('ETHUSDT_220624')
-    all_coin.remove('BTCUSDT')
 
     while i < len(all_coin) : #총 코인 갯수
         try:
@@ -240,6 +167,7 @@ while True:
                         globals()['buy_money_{}'.format(n)] = round(globals()['buy_money_{}'.format(n)],2)
                         
                         if (first_buy_money < balance['USDT']['free']):
+                            print('try buy(long) :', coin)
                             client = r_Client(api_key=api_key, api_secret=secret)
                             #레버리지 설정
                             client.futures_change_leverage(symbol = coin, leverage = all_leverage)
@@ -269,14 +197,14 @@ while True:
 
                             globals()['count_buy_{}'.format(n)] = 'false'
                             print('time :', now)
-                            print('buycoin(long) :', coin)
-                            print('n : ', n)
+                            print('success buy coin(long) :', coin)
                             print('----------------------------------------------------')
                             time.sleep(2)    
                             break
 
             #코인 숏 구매
             if (70 < old_old_rsi) and (70 > old_rsi) and (70 > now_rsi) and (count_all_sell == 'true'):
+            #if False:
                 for n in range(0, coin_buy_index):
                     #보유여부확인
                     positions = balance['info']['positions']
@@ -295,6 +223,7 @@ while True:
                         globals()['buy_money_{}'.format(n)] = round(globals()['buy_money_{}'.format(n)],3)
 
                         if (first_buy_money < balance['USDT']['free']) :
+                            print('try buy(short) :', coin)
                             client = r_Client(api_key=api_key, api_secret=secret)          
                             #레버리지 설정
                             client.futures_change_leverage(symbol = coin, leverage = all_leverage)
@@ -324,7 +253,7 @@ while True:
 
                             globals()['count_sell_{}'.format(n)] = 'false'
                             print('time :', now)
-                            print('buycoin(short) :', coin)
+                            print('success buy coin(short) :', coin)
                             print('----------------------------------------------------')
                             time.sleep(2)    
                             break
@@ -350,12 +279,28 @@ while True:
                     
                     #2퍼 익절(롱)
                     if ((float(globals()['water_buy_price_buy_{}'.format(n)]) * 1.02) < globals()['current_price_buy_{}'.format(n)]) :
+                    #if True :
+
+                        #quantity 자리수 설정
+                        client = r_Client(api_key=api_key, api_secret=secret)
+                        info = client.futures_exchange_info()
+                        requestedFutures = [globals()['buycoin_buy_{}'.format(n)]]
+                        #print(
+                        #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                        #)
+                        decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                        decimal_point = decimal_point.replace('{', '')
+                        decimal_point = decimal_point.replace('}', '')
+                        decimal_point = int(decimal_point)
+                        #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+
+                        print('try sell(long) :', globals()['buycoin_buy_{}'.format(n)])
                         client.futures_create_order(
                             symbol=globals()['buycoin_buy_{}'.format(n)], side='SELL',
-                            positionSide = 'LONG', type='MARKET', quantity=globals()['old_plus_buy_{}'.format(n)]
+                            positionSide = 'LONG', type='MARKET', quantity=round(globals()['old_plus_buy_{}'.format(n)],decimal_point)
                         )
                         print('time :', now)
-                        print('sellcoin(long) :', globals()['buycoin_buy_{}'.format(n)])
+                        print('success sell coin(long) :', globals()['buycoin_buy_{}'.format(n)])
                         print('----------------------------------------------------')
                         globals()['count_buy_{}'.format(n)] = 'true'
                         time.sleep(1)    
@@ -366,17 +311,35 @@ while True:
                         
                     #물타기(롱)
                     if (30 > old_old_rsi) and (30 < old_rsi) and (30 < now_rsi) and (now > globals()['buytime_buy_{}'.format(n)]) and ((float(globals()['last_current_price_buy_{}'.format(n)]) * 0.93) > globals()['current_price_buy_{}'.format(n)]):
+                    #if True:
                         #선물잔고조회
                         balance = binance.fetch_balance(params={"type": "future"})
                         
                         if (globals()['last_buy_money_{}'.format(n)]*2 < balance['USDT']['free']) :
+                            #구매가 이전보다 2배 증가
                             globals()['last_buy_money_{}'.format(n)] = globals()['last_buy_money_{}'.format(n)]*2
+
                             #레버리지 설정
                             client.futures_change_leverage(symbol = globals()['buycoin_buy_{}'.format(n)], leverage = all_leverage)
+
+                            #quantity 자리수 설정
+                            client = r_Client(api_key=api_key, api_secret=secret)
+                            info = client.futures_exchange_info()
+                            requestedFutures = [globals()['buycoin_buy_{}'.format(n)]]
+                            #print(
+                            #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                            #)
+                            decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                            decimal_point = decimal_point.replace('{', '')
+                            decimal_point = decimal_point.replace('}', '')
+                            decimal_point = int(decimal_point)
+                            #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+                            
+                            print('try water buy(long) :', globals()['buycoin_buy_{}'.format(n)])
                             #구매
                             client.futures_create_order(
                                 symbol=globals()['buycoin_buy_{}'.format(n)], side='BUY',
-                                positionSide = 'LONG', type='MARKET', quantity=globals()['buy_money_buy_{}'.format(n)]*2
+                                positionSide = 'LONG', type='MARKET', quantity=round(globals()['buy_money_buy_{}'.format(n)]*2,decimal_point)
                             )
 
                             #구매시간 갱신
@@ -387,18 +350,6 @@ while True:
                             globals()['current_price_buy_{}'.format(n)] = client.futures_symbol_ticker(symbol=globals()['buycoin_buy_{}'.format(n)])
                             globals()['current_price_buy_{}'.format(n)] = float(globals()['current_price_buy_{}'.format(n)]['price'])
                             globals()['last_current_price_buy_{}'.format(n)] = globals()['current_price_buy_{}'.format(n)]
-                            
-                            #총 매수량 : all_purchase_volume_buy
-                            #if globals()['water_buy_price_buy_{}'.format(n)] == globals()['price_buy_{}'.format(n)]['price'] :
-                            #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_buy_money_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
-                            #else :
-                            #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_plus_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
-                            
-                            #총 비용 : globals()['old_plus_buy_{}'.format(n)]
-                            #if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
@@ -415,7 +366,7 @@ while True:
                             globals()['water_buy_price_buy_{}'.format(n)] = float(entry)
                             globals()['old_plus_buy_{}'.format(n)] = float(positionAmt)
                             print('time :', now)
-                            print('watercoin(long) :', globals()['buycoin_buy_{}'.format(n)])
+                            print('success water coin(long) :', globals()['buycoin_buy_{}'.format(n)])
                             print('old_old_rsi(long)', old_old_rsi)
                             print('old_rsi(long)', old_rsi)
                             print('----------------------------------------------------')
@@ -430,10 +381,25 @@ while True:
                             globals()['last_buy_money_{}'.format(n)] = globals()['last_buy_money_{}'.format(n)]*2
                             #레버리지 설정
                             client.futures_change_leverage(symbol = globals()['buycoin_buy_{}'.format(n)], leverage = all_leverage)
+
+                            #quantity 자리수 설정
+                            client = r_Client(api_key=api_key, api_secret=secret)
+                            info = client.futures_exchange_info()
+                            requestedFutures = [globals()['buycoin_buy_{}'.format(n)]]
+                            #print(
+                            #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                            #)
+                            decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                            decimal_point = decimal_point.replace('{', '')
+                            decimal_point = decimal_point.replace('}', '')
+                            decimal_point = int(decimal_point)
+                            #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+
+                            print('try water buy(long) :', globals()['buycoin_buy_{}'.format(n)])
                             #구매
                             client.futures_create_order(
                                 symbol=globals()['buycoin_buy_{}'.format(n)], side='BUY',
-                                positionSide = 'LONG', type='MARKET', quantity=globals()['buy_money_buy_{}'.format(n)]*2
+                                positionSide = 'LONG', type='MARKET', quantity=round(globals()['buy_money_buy_{}'.format(n)]*2,decimal_point)
                             )
 
                             #구매시간 갱신
@@ -444,18 +410,6 @@ while True:
                             globals()['current_price_buy_{}'.format(n)] = client.futures_symbol_ticker(symbol=globals()['buycoin_buy_{}'.format(n)])
                             globals()['current_price_buy_{}'.format(n)] = float(globals()['current_price_buy_{}'.format(n)]['price'])
                             globals()['last_current_price_buy_{}'.format(n)] = globals()['current_price_buy_{}'.format(n)]
-                            
-                            #총 매수량 : globals()['all_purchase_volume_buy_{}'.format(n)]
-                            #if globals()['water_buy_price_buy_{}'.format(n)] == globals()['price_buy_{}'.format(n)]['price'] :
-                            #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_buy_money_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
-                            #else :
-                            #    globals()['all_purchase_volume_buy_{}'.format(n)] = (float(globals()['water_buy_price_buy_{}'.format(n)]) * float(globals()['old_plus_buy_{}'.format(n)])) + (float(globals()['current_price_buy_{}'.format(n)]) * float(globals()['buy_money_buy_{}'.format(n)]))
-                            
-                            #총 비용 : globals()['old_plus_buy_{}'.format(n)]
-                            #if globals()['old_buy_money_buy_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_buy_money_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_buy_{}'.format(n)] = globals()['old_plus_buy_{}'.format(n)] + globals()['buy_money_buy_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_buy_{}'.format(n)] = float(globals()['all_purchase_volume_buy_{}'.format(n)])/float(globals()['old_plus_buy_{}'.format(n)])
@@ -472,7 +426,7 @@ while True:
                             globals()['water_buy_price_buy_{}'.format(n)] = float(entry)
                             globals()['old_plus_buy_{}'.format(n)] = float(positionAmt)
                             print('time :', now)
-                            print('watercoin(long) :', globals()['buycoin_buy_{}'.format(n)])
+                            print('success water coin(long) :', globals()['buycoin_buy_{}'.format(n)])
                             print('----------------------------------------------------')
                             time.sleep(1) 
                 
@@ -484,13 +438,28 @@ while True:
                     
                     #2퍼 익절(숏)
                     if ((float(globals()['water_buy_price_sell_{}'.format(n)]) * 0.98) > globals()['current_price_sell_{}'.format(n)]) :
+
+                        #quantity 자리수 설정
+                        client = r_Client(api_key=api_key, api_secret=secret)
+                        info = client.futures_exchange_info()
+                        requestedFutures = [globals()['buycoin_sell_{}'.format(n)]]
+                        #print(
+                        #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                        #)
+                        decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                        decimal_point = decimal_point.replace('{', '')
+                        decimal_point = decimal_point.replace('}', '')
+                        decimal_point = int(decimal_point)
+                        #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+
+                        print('try sell(short) :', globals()['buycoin_sell_{}'.format(n)])
                         client.futures_create_order(
                             symbol=globals()['buycoin_sell_{}'.format(n)], side='BUY',
-                            positionSide = 'SHORT', type='MARKET', quantity=globals()['old_plus_sell_{}'.format(n)]
+                            positionSide = 'SHORT', type='MARKET', quantity=round(globals()['old_plus_sell_{}'.format(n)],decimal_point)
                         )
                         print('time :', now)
-                        print('sellcoin(short) :', globals()['buycoin_sell_{}'.format(n)])
-                        print('')
+                        print('success sell coin(short) :', globals()['buycoin_sell_{}'.format(n)])
+                        print('----------------------------------------------------')
                         globals()['count_sell_{}'.format(n)] = 'true'
                         time.sleep(1)    
 
@@ -507,10 +476,25 @@ while True:
                             globals()['last_sell_money_{}'.format(n)] = globals()['last_sell_money_{}'.format(n)]*2
                             #레버리지 설정
                             client.futures_change_leverage(symbol = globals()['buycoin_sell_{}'.format(n)], leverage = all_leverage)
+
+                            #quantity 자리수 설정
+                            client = r_Client(api_key=api_key, api_secret=secret)
+                            info = client.futures_exchange_info()
+                            requestedFutures = [globals()['buycoin_sell_{}'.format(n)]]
+                            #print(
+                            #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                            #)
+                            decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                            decimal_point = decimal_point.replace('{', '')
+                            decimal_point = decimal_point.replace('}', '')
+                            decimal_point = int(decimal_point)
+                            #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+
+                            print('try water buy(short) :', globals()['buycoin_sell_{}'.format(n)])
                             #구매
                             client.futures_create_order(
                                 symbol=globals()['buycoin_sell_{}'.format(n)], side='SELL',
-                                positionSide = 'SHORT', type='MARKET', quantity=globals()['buy_money_sell_{}'.format(n)]*2
+                                positionSide = 'SHORT', type='MARKET', quantity=round(globals()['buy_money_sell_{}'.format(n)]*2,decimal_point)
                             )
 
                             #구매시간 갱신
@@ -521,18 +505,6 @@ while True:
                             globals()['current_price_sell_{}'.format(n)] = client.futures_symbol_ticker(symbol=globals()['buycoin_sell_{}'.format(n)])
                             globals()['current_price_sell_{}'.format(n)] = float(globals()['current_price_sell_{}'.format(n)]['price'])
                             globals()['last_current_price_sell_{}'.format(n)] = globals()['current_price_sell_{}'.format(n)]
-                            
-                            #총 매수량 : all_purchase_volume_sell
-                            #if globals()['water_buy_price_sell_{}'.format(n)] == globals()['price_sell_{}'.format(n)]['price'] :
-                            #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_buy_money_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
-                            #else :
-                            #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_plus_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
-                            
-                            #총 비용 : globals()['old_plus_sell_{}'.format(n)]
-                            #if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
@@ -549,7 +521,7 @@ while True:
                             globals()['water_buy_price_sell_{}'.format(n)] = float(entry)
                             globals()['old_plus_sell_{}'.format(n)] = positionAmt
                             print('time :', now)
-                            print('watercoin(short) :', globals()['buycoin_sell_{}'.format(n)])
+                            print('success water coin(short) :', globals()['buycoin_sell_{}'.format(n)])
                             print('old_old_rsi(short)', old_old_rsi)
                             print('old_rsi(short)', old_rsi)
                             print('----------------------------------------------------')
@@ -564,10 +536,25 @@ while True:
                             globals()['last_sell_money_{}'.format(n)] = globals()['last_sell_money_{}'.format(n)]*2
                             #레버리지 설정
                             client.futures_change_leverage(symbol = globals()['buycoin_sell_{}'.format(n)], leverage = all_leverage)
+
+                            #quantity 자리수 설정
+                            client = r_Client(api_key=api_key, api_secret=secret)
+                            info = client.futures_exchange_info()
+                            requestedFutures = [globals()['buycoin_sell_{}'.format(n)]]
+                            #print(
+                            #    {si['symbol']:si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures}
+                            #)
+                            decimal_point = str({si['quantityPrecision'] for si in info['symbols'] if si['symbol'] in requestedFutures})
+                            decimal_point = decimal_point.replace('{', '')
+                            decimal_point = decimal_point.replace('}', '')
+                            decimal_point = int(decimal_point)
+                            #print(int(decimal_point))  #여기 이 값을 round 에서 사용하면 됨
+
+                            print('try water buy(short) :', globals()['buycoin_sell_{}'.format(n)])
                             #구매
                             client.futures_create_order(
                                 symbol=globals()['buycoin_sell_{}'.format(n)], side='SELL',
-                                positionSide = 'SHORT', type='MARKET', quantity=globals()['buy_money_sell_{}'.format(n)]*2
+                                positionSide = 'SHORT', type='MARKET', quantity=round(globals()['buy_money_sell_{}'.format(n)]*2,decimal_point)
                             )
 
                             #구매시간 갱신
@@ -578,18 +565,6 @@ while True:
                             globals()['current_price_sell_{}'.format(n)] = client.futures_symbol_ticker(symbol=globals()['buycoin_sell_{}'.format(n)])
                             globals()['current_price_sell_{}'.format(n)] = float(globals()['current_price_sell_{}'.format(n)]['price'])
                             globals()['last_current_price_sell_{}'.format(n)] = globals()['current_price_sell_{}'.format(n)]
-                            
-                            #총 매수량 : globals()['all_purchase_volume_sell_{}'.format(n)]
-                            #if globals()['water_buy_price_sell_{}'.format(n)] == globals()['price_sell_{}'.format(n)]['price'] :
-                            #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_buy_money_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
-                            #else :
-                            #    globals()['all_purchase_volume_sell_{}'.format(n)] = (float(globals()['water_buy_price_sell_{}'.format(n)]) * float(globals()['old_plus_sell_{}'.format(n)])) + (float(globals()['current_price_sell_{}'.format(n)]) * float(globals()['buy_money_sell_{}'.format(n)]))
-                            
-                            #총 비용 : globals()['old_plus_sell_{}'.format(n)]
-                            #if globals()['old_buy_money_sell_{}'.format(n)] == globals()['buy_money_{}'.format(n)] :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_buy_money_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
-                            #else :
-                            #    globals()['old_plus_sell_{}'.format(n)] = globals()['old_plus_sell_{}'.format(n)] + globals()['buy_money_sell_{}'.format(n)]
 
                             #총 매수량
                             #globals()['water_buy_price_sell_{}'.format(n)] = float(globals()['all_purchase_volume_sell_{}'.format(n)])/float(globals()['old_plus_sell_{}'.format(n)])
@@ -606,7 +581,7 @@ while True:
                             globals()['water_buy_price_sell_{}'.format(n)] = float(entry)
                             globals()['old_plus_sell_{}'.format(n)] = positionAmt
                             print('time :', now)
-                            print('watercoin(short) :', globals()['buycoin_sell_{}'.format(n)])
+                            print('success water coin(short) :', globals()['buycoin_sell_{}'.format(n)])
                             print('----------------------------------------------------')
                             time.sleep(1)    
                 time.sleep(2)
